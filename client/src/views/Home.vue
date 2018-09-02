@@ -47,6 +47,7 @@
 <script>
 	import $ from 'jquery'
 	import ComplaintController from '../controllers/ComplaintController'
+	import publicip from 'public-ip'
 	export default{
 		data(){
 			return{
@@ -54,6 +55,7 @@
 				about: 'none',
 				target: 'none',
 				message: '',
+				ip: ''
 			}
 		},
 		methods: {
@@ -79,9 +81,20 @@
 					way: me.way,
 					about: me.about,
 					target: me.target,
-					message: me.message
+					message: me.message,
+					ip: me.ip
 				}).then((rp) => {
 					console.log(rp)
+					die()
+					if(rp.status == 201){
+						alert('Success')
+						me.reset()
+					}
+				}).catch((error) => {
+					console.log(error.response)
+					if(error.response.status == 422){
+						alert('You have already submitted a complaint in this device')
+					}
 				})
 			},
 			reset(){
@@ -92,7 +105,17 @@
 				me.about = 'none'
 				me.target = 'none'
 				me.message = ''
+			},
+			setIP(ip){
+				this.ip = ip
 			}
+		},
+		mounted(){
+			let me = this 
+			publicip.v4()
+				.then((rp) => {
+					this.setIP(rp)	
+				})
 		}
 	}
 
