@@ -7,6 +7,7 @@
     				<h1>PSU</h1>
     			</router-link>
                 <div class="right-nav">
+                    <router-link to="/complaints" class="normal">View Complaints</router-link>
                     <button class="logout" @click="logout()" v-if="isLoggedIn">‹ Logout</button>
                 </div>
     		</div>
@@ -35,6 +36,7 @@
                 setTimeout(function() {
                     me.isLoading = false
                     me.isLoggedIn = false
+                    me.$router.push('/admin-panel')
                 }, 2000)
             }
         },
