@@ -22,16 +22,31 @@
 </template>
 
 <script>
+	import UserServices from '../services/UserServices'
+	import jwt from 'jsonwebtoken'
+	import Cookie from 'js-cookie'
 	export default{
 		data(){
 			return{
-				username: '',
-				password: ''
+				username: 'superadmin',
+				password: 'admin'
 			}
 		},
 		methods: {
 			login(){
-				alert(1)
+				let me = this
+				UserServices.login({
+					username: me.username,
+					password: me.password,
+				}).then((response) => {
+					var token = response.data.token
+					Cookie.set('token', token, {
+						expires: 1
+					})
+					me.$parent.isLoggedIn = true
+				}).catch((error) => {
+					console.log(error)
+				})
 			}
 		}
 	}

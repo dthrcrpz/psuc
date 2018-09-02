@@ -4,7 +4,7 @@
     		<div class="container">
     			<router-link to="/" class="logo">
     				<img src="/logo.png">
-    				<h1>PSU</h1>
+    				<h1>PSU</h1>{{ isLoggedIn }}
     			</router-link>
     		</div>
     	</nav>
@@ -16,10 +16,21 @@
 </template>
 
 <script>
+    import Cookie from 'js-cookie'
     export default{
         data(){
             return{
-                isLoading: false
+                isLoading: false,
+                isLoggedIn: false
+            }
+        },
+        mounted(){
+            let me = this
+            var c = Cookie.get('token')
+            if(c == undefined){
+                me.isLoggedIn = false
+            }else{
+                me.isLoggedIn = true
             }
         }
     }

@@ -14,18 +14,21 @@ class UserController extends Controller
 			"iss" => "laravel-jwt",
 			"sub" => $user->id,
 			"iat" => time(),
-			"exp" => time() + 60+60
+			"exp" => time() + 60 * 60
 		];
 
 		return JWT::encode($payload, env('JWT_SECRET'));
 	}
 
-    public function login(){
+    public function login(Request $r){
     	$password = md5(hash('sha512', $r->password).hash('ripemd160', $r->password).md5("strongest"));
     	$user = User::where('username', $r->username)->where('password', $password)->first();
 
     	if($user){
-    		return $this->jwt($user);
+    		return response()->json([
+    			'token' => $this->jwt($user),
+    			'expiry' => time() + 60 * 60
+     		]);
     	}else{
     		return 0;
     	}

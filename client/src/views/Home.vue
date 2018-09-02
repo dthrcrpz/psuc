@@ -46,7 +46,7 @@
 
 <script>
 	import $ from 'jquery'
-	import ComplaintController from '../controllers/ComplaintController'
+	import ComplaintServices from '../services/ComplaintServices'
 	import publicip from 'public-ip'
 	export default{
 		data(){
@@ -81,7 +81,7 @@
 				}
 
 				me.setLoading(true)
-				ComplaintController.addComplaint({
+				ComplaintServices.addComplaint({
 					way: me.way,
 					about: me.about,
 					target: me.target,
