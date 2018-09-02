@@ -46,7 +46,7 @@
 
 <script>
 	import $ from 'jquery'
-	import PostController from '../controllers/PostController'
+	import ComplaintController from '../controllers/ComplaintController'
 	export default{
 		data(){
 			return{
@@ -75,11 +75,13 @@
 				// do not proceed if has errors
 				if(errors.length > 0){die()}
 
-				var rp = PostController.addPost({
+				ComplaintController.addComplaint({
 					way: me.way,
 					about: me.about,
 					target: me.target,
 					message: me.message
+				}).then((rp) => {
+					console.log(rp)
 				})
 			},
 			reset(){
