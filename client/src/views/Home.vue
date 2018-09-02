@@ -46,6 +46,7 @@
 
 <script>
 	import $ from 'jquery'
+	import PostController from '../controllers/PostController'
 	export default{
 		data(){
 			return{
@@ -73,6 +74,13 @@
 
 				// do not proceed if has errors
 				if(errors.length > 0){die()}
+
+				var rp = PostController.addPost({
+					way: me.way,
+					about: me.about,
+					target: me.target,
+					message: me.message
+				})
 			},
 			reset(){
 				let me = this
