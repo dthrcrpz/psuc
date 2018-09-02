@@ -115,7 +115,7 @@ nav{
 			input, select, textarea{
 				display: block;
 				width: 100%;
-				background: #fff;
+				background-color: #fff;
 				border: 1px solid @cBlack;
 				border-radius: 4px;
 				padding: 10px;
@@ -126,6 +126,16 @@ nav{
 					box-shadow: 0 0 4px @primary;
 				}
 				resize: none;
+			}
+			select{
+				appearance: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				-o-appearance: none;
+				background-image: url('/arrow.png');
+				background-size: 20px;
+				background-repeat: no-repeat;
+				background-position: calc(100% - 5px) 50%;
 			}
 			.has-errors{
 				border: 1px solid red;

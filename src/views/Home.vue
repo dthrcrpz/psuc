@@ -22,7 +22,7 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<label>What/Who is the subject of your complaint?</label>
+					<label>What/Who is the subject of your concern?</label>
 					<select name="target" v-model="target">
 						<option value="none" style="display: none">Please select</option>
 						<option>Facilities</option>
