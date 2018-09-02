@@ -14,7 +14,7 @@ class UserController extends Controller
 			"iss" => "laravel-jwt",
 			"sub" => $user->id,
 			"iat" => time(),
-			"exp" => time() + 60 * 60
+			"exp" => time() + 60 * 120
 		];
 
 		return JWT::encode($payload, env('JWT_SECRET'));
@@ -27,7 +27,7 @@ class UserController extends Controller
     	if($user){
     		return response()->json([
     			'token' => $this->jwt($user),
-    			'expiry' => time() + 60 * 60
+    			'expiry' => time() + 60 * 120
      		]);
     	}else{
     		return 0;

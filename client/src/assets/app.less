@@ -74,6 +74,7 @@ nav{
 	box-shadow: 0 0 11px #000;
 	.container{
 		padding: 10px 20px;
+		position: relative;
 		.logo{
 			display: table;
 			img{
@@ -86,6 +87,21 @@ nav{
 				display: inline-table;
 				vertical-align: middle;
 				margin-left: 10px;
+			}
+		}
+		.right-nav{
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			display: table;
+			margin: auto;
+			.logout{
+				background: #fff;
+				color: @primary;
+				padding: 5px 10px;
+				border: 1px solid #fff;
+				border-radius: 4px;
 			}
 		}
 	}
@@ -244,6 +260,9 @@ body{
 				text-align: center;
 			}
 		}
+	}
+	.container.admin-container{
+		background: #fff;
 	}
 }
 // wew

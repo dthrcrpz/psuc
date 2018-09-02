@@ -1,6 +1,6 @@
 <template>
 	<div class="admin-panel">
-		<div class="container login-container">
+		<div class="container login-container" v-if="this.$parent.isLoggedIn == false">
 			<img src="/logo.png" class="logo">
 			<p class="h3">Admin Panel</p>
 			<form @submit.prevent="login()">
@@ -17,6 +17,9 @@
 					</div>
 				</div>
 			</form>
+		</div>
+		<div class="container admin-container" v-if="this.$parent.isLoggedIn">
+			this is admin panel
 		</div>
 	</div>
 </template>
@@ -35,6 +38,7 @@
 		methods: {
 			login(){
 				let me = this
+				me.$parent.isLoading = true
 				UserServices.login({
 					username: me.username,
 					password: me.password,
@@ -43,7 +47,10 @@
 					Cookie.set('token', token, {
 						expires: 1
 					})
-					me.$parent.isLoggedIn = true
+					setTimeout(function() {
+						me.$parent.isLoading = false
+						me.$parent.isLoggedIn = true
+					}, 2000)
 				}).catch((error) => {
 					console.log(error)
 				})

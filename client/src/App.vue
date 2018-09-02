@@ -4,8 +4,11 @@
     		<div class="container">
     			<router-link to="/" class="logo">
     				<img src="/logo.png">
-    				<h1>PSU</h1>{{ isLoggedIn }}
+    				<h1>PSU</h1>
     			</router-link>
+                <div class="right-nav">
+                    <button class="logout" @click="logout()" v-if="isLoggedIn">‹ Logout</button>
+                </div>
     		</div>
     	</nav>
     	<router-view/>
@@ -22,6 +25,17 @@
             return{
                 isLoading: false,
                 isLoggedIn: false
+            }
+        },
+        methods: {
+            logout(){
+                let me = this
+                me.isLoading = true
+                Cookie.remove('token')
+                setTimeout(function() {
+                    me.isLoading = false
+                    me.isLoggedIn = false
+                }, 2000)
             }
         },
         mounted(){
