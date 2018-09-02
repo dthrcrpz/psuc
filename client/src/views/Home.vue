@@ -3,7 +3,7 @@
 		<div class="container">
 			<form @submit.prevent="submit()">
 				<div class="form-group">
-					<label>What are you?</label>
+					<label>What are you? *</label>
 					<select v-model="way">
 						<option value="none" style="display: none">Please select</option>
 						<option>Student</option>
@@ -13,7 +13,7 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<label>What is this all about?</label>
+					<label>What is this all about? *</label>
 					<select v-model="about">
 						<option value="none" style="display: none">Please select</option>
 						<option>Complaint</option>
@@ -22,7 +22,7 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<label>What/Who is the subject of your concern?</label>
+					<label>What/Who is the subject of your concern? *</label>
 					<select name="target" v-model="target">
 						<option value="none" style="display: none">Please select</option>
 						<option>Facilities</option>
@@ -32,7 +32,7 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<label>Your Complaint</label>
+					<label>Your Complaint *</label>
 					<textarea rows="6" placeholder="Type your concern" v-model="message" name="message"></textarea>
 				</div>
 				<div class="buttons-container">
@@ -75,7 +75,10 @@
 				}
 
 				// do not proceed if has errors
-				if(errors.length > 0){die()}
+				if(errors.length > 0){
+					alert('Please fill-out all required fields')
+					die()
+				}
 
 				me.setLoading(true)
 				ComplaintController.addComplaint({
