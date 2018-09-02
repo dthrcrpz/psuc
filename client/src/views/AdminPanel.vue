@@ -5,10 +5,10 @@
 			<p class="h3">Admin Panel</p>
 			<form @submit.prevent="login()">
 				<div class="form-group">
-					<input type="text" placeholder="Username">
+					<input type="text" placeholder="Username" v-model="username">
 				</div>
 				<div class="form-group">
-					<input type="text" placeholder="Password">
+					<input type="password" placeholder="Password" v-model="password">
 				</div>
 				<div class="form-group">
 					<button type="submit">Login</button>
@@ -23,8 +23,16 @@
 
 <script>
 	export default{
-		login(){
-
+		data(){
+			return{
+				username: '',
+				password: ''
+			}
+		},
+		methods: {
+			login(){
+				alert(1)
+			}
 		}
 	}
 </script>
