@@ -18,6 +18,11 @@ const router = new Router({
       path: '/admin-panel',
       name: 'admin-panel',
       component: () => import('./views/AdminPanel.vue')
+    },
+    {
+      path: '/complaints',
+      name: 'complaints',
+      component: () => import('./views/Complaints.vue')
     }
   ]
 })

@@ -1,6 +1,7 @@
 // colors 
 @primary: #1e7ea7;
 @cBlack: #505F79;
+@yellow: #fddd44;
 
 // fonts
 
@@ -102,9 +103,13 @@ nav{
 				padding: 5px 10px;
 				border: 1px solid #fff;
 				border-radius: 4px;
+				margin-left: 15px;
 			}
 			.normal{
 				font-size: 15px;
+			}
+			.normal.router-link-active{
+				color: @yellow;
 			}
 		}
 	}
@@ -270,11 +275,42 @@ body{
 }
 
 #nprogress .bar{
-	background: #fddd44;
+	background: @yellow;
 	height: 4px;
 }
 #nprogress .spinner-icon{
-	border-top-color: #fddd44;
-  	border-left-color: #fddd44;
+	border-top-color: @yellow;
+  	border-left-color: @yellow;
+}
+.complaints{
+	background: rgba(0,0,0,0.5);
+	min-height: 95vh;
+	padding: 40px 10px;
+	.container{
+		background: #fff;
+		padding: 30px 20px;
+	}
+}
+.post-template{
+	display: grid;
+	grid-template-columns: 200px auto;
+	grid-column-gap: 10px;
+	border-bottom: 1px solid #bdbdbd;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+	font-size: 15px;
+	.col{
+		.info-group{
+			margin-bottom: 10px;
+			.label{
+				font-weight: bold;
+				display: inline-block;
+				margin-right: 10px;
+			}
+			.value{
+				display: inline-block;
+			}
+		}
+	}
 }
 // wew
