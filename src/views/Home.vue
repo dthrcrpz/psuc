@@ -5,7 +5,7 @@
 				<div class="form-group">
 					<label>What are you?</label>
 					<select v-model="way">
-						<option value="none" disabled>Please select</option>
+						<option value="none" style="display: none">Please select</option>
 						<option>Student</option>
 						<option>Staff</option>
 						<option>Faculty</option>
@@ -15,7 +15,7 @@
 				<div class="form-group">
 					<label>What is this all about?</label>
 					<select v-model="about">
-						<option value="none" disabled>Please select</option>
+						<option value="none" style="display: none">Please select</option>
 						<option>Complaint</option>
 						<option>Compliment</option>
 						<option>Suggestion</option>
@@ -23,8 +23,8 @@
 				</div>
 				<div class="form-group">
 					<label>What/Who is the subject of your complaint?</label>
-					<select v-model="target">
-						<option value="none" disabled>Please select</option>
+					<select name="target" v-model="target">
+						<option value="none" style="display: none">Please select</option>
 						<option>Facilities</option>
 						<option>Instructor</option>
 						<option>System</option>
@@ -33,12 +33,11 @@
 				</div>
 				<div class="form-group">
 					<label>Your Complaint</label>
-					<textarea rows="6" placeholder="Type your concern" v-model="message" v-validate="'required'" name="message"></textarea>
-					{{ errors.any('message') }}
+					<textarea rows="6" placeholder="Type your concern" v-model="message" name="message"></textarea>
 				</div>
 				<div class="buttons-container">
 					<button type="submit">Submit</button>
-					<button type="reset" class="reset">Reset Form</button>
+					<button class="reset" type="button" @click="reset()">Reset Form</button>
 				</div>
 			</form>
 		</div>
@@ -46,6 +45,7 @@
 </template>
 
 <script>
+	import $ from 'jquery'
 	export default{
 		data(){
 			return{
@@ -57,8 +57,39 @@
 		},
 		methods: {
 			submit(){
-				alert(1)
+				let me = this
+				var errors = []
+				// validate
+				$.each($('.home').find('select'), function(){
+					if($(this).find(':selected').val() == 'none'){
+						$(this).addClass('has-errors')
+						errors.push(1)
+					}
+				})
+				if(me.message == ''){
+					$('textarea[name="message"').addClass('has-errors')
+					errors.push(1)
+				}
+
+				// do not proceed if has errors
+				if(errors.length > 0){die()}
+			},
+			reset(){
+				let me = this
+				$('body select').removeClass('has-errors')
+				$('body textarea').removeClass('has-errors')
+				me.way = 'none'
+				me.about = 'none'
+				me.target = 'none'
+				me.message = ''
 			}
 		}
 	}
+
+	$('body').on('change', 'select', function(){
+		$(this).removeClass('has-errors')
+	})
+	$('body').on('change', 'textarea', function(){
+		$(this).removeClass('has-errors')
+	})
 </script>
