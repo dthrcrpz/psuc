@@ -55,7 +55,7 @@
 				about: 'none',
 				target: 'none',
 				message: '',
-				ip: ''
+				ip: '',
 			}
 		},
 		methods: {
@@ -77,6 +77,7 @@
 				// do not proceed if has errors
 				if(errors.length > 0){die()}
 
+				me.setLoading(true)
 				ComplaintController.addComplaint({
 					way: me.way,
 					about: me.about,
@@ -84,17 +85,19 @@
 					message: me.message,
 					ip: me.ip
 				}).then((rp) => {
-					console.log(rp)
-					die()
 					if(rp.status == 201){
-						alert('Success')
-						me.reset()
+						setTimeout(function() {
+							me.setLoading(false)
+							alert('Thank you for submitting your concern. We will try our best to address this issue.')
+							me.reset()
+						}, 2000)
 					}
 				}).catch((error) => {
 					console.log(error.response)
 					if(error.response.status == 422){
 						alert('You have already submitted a complaint in this device')
 					}
+					me.setLoading(false)
 				})
 			},
 			reset(){
@@ -108,6 +111,9 @@
 			},
 			setIP(ip){
 				this.ip = ip
+			},
+			setLoading(val){
+				this.$parent.isLoading = val
 			}
 		},
 		mounted(){

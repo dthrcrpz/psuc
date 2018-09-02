@@ -9,5 +9,18 @@
     		</div>
     	</nav>
     	<router-view/>
+        <transition name="fade">
+            <div class="loading-container" v-if="isLoading"></div>
+        </transition>
     </div>
 </template>
+
+<script>
+    export default{
+        data(){
+            return{
+                isLoading: false
+            }
+        }
+    }
+</script>
