@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+// complaints
 Route::post('complaints', 'ComplaintController@store');
+
+// users
+Route::post('login', 'UserController@login');
