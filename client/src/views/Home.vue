@@ -4,7 +4,7 @@
 			<form @submit.prevent="submit()">
 				<div class="form-group">
 					<label>Your Name (will only be visible to System Admins) *</label>
-					<input type="text" v-model="name" name="name" pattern="[a-zA-Z]+[ ][a-zA-Z]+" placeholder="John Doe">
+					<input type="text" v-model="name" name="name" pattern="[a-zA-Z]+[a-zA-Z ]+" placeholder="John Doe">
 				</div>
 				<div class="form-group">
 					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)*</label>
@@ -133,6 +133,8 @@
 				me.about = 'none'
 				me.target = 'none'
 				me.message = ''
+				me.name = ''
+				me.alias = ''
 			},
 			setIP(ip){
 				this.ip = ip
