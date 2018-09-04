@@ -24,7 +24,6 @@
 				ComplaintServices.fetchComplaints()
 				.then((response) => {
 					me.complaints = response.data
-					console.log(me.complaints)
 				}).catch((error) => {
 					console.log(error)
 				})
