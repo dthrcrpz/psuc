@@ -24,4 +24,8 @@ class ComplaintController extends Controller
     	]);
     	return $action;
     }
+
+    public function fetch(){
+        return Complaint::all();
+    }
 }
