@@ -3,6 +3,14 @@
 		<div class="container">
 			<form @submit.prevent="submit()">
 				<div class="form-group">
+					<label>Your Name (will only be visible to System Admins) *</label>
+					<input type="text" v-model="name" name="name" pattern="[a-zA-Z]+[ ][a-zA-Z]+" placeholder="John Doe">
+				</div>
+				<div class="form-group">
+					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)*</label>
+					<input type="text" v-model="alias" name="alias" placeholder="anon623">
+				</div>
+				<div class="form-group">
 					<label>What are you? *</label>
 					<select v-model="way">
 						<option value="none" style="display: none">Please select</option>
@@ -56,6 +64,8 @@
 				target: 'none',
 				message: '',
 				ip: '',
+				name: '',
+				alias: ''
 			}
 		},
 		methods: {
@@ -74,6 +84,16 @@
 					errors.push(1)
 				}
 
+				if(me.name == ''){
+					$('input[name="name"').addClass('has-errors')
+					errors.push(1)
+				}
+
+				if(me.alias == ''){
+					$('input[name="alias"').addClass('has-errors')
+					errors.push(1)
+				}
+
 				// do not proceed if has errors
 				if(errors.length > 0){
 					alert('Please fill-out all required fields')
@@ -82,6 +102,8 @@
 
 				me.setLoading(true)
 				ComplaintServices.addComplaint({
+					name: me.name,
+					alias: me.alias,
 					way: me.way,
 					about: me.about,
 					target: me.target,
@@ -129,6 +151,9 @@
 	}
 
 	$('body').on('change', 'select', function(){
+		$(this).removeClass('has-errors')
+	})
+	$('body').on('change', 'input', function(){
 		$(this).removeClass('has-errors')
 	})
 	$('body').on('change', 'textarea', function(){
