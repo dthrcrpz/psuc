@@ -14,6 +14,8 @@ class ComplaintController extends Controller
     	]);
 
     	$action = Complaint::create([
+            'name' => $r->name,
+            'alias' => $r->alias,
     		'way' => $r->way,
     		'about' => $r->about,
     		'target' => $r->target,
