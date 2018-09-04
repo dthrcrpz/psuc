@@ -1,7 +1,7 @@
 <template>
 	<div class="complaints">
 		<div class="container">
-			<post v-for="complaint in complaints"></post>
+			<post v-for="complaint in complaints" :data="complaint"></post>
 		</div>
 	</div>
 </template>
