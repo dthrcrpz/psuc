@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Validator;
 class ComplaintController extends Controller
 {
     public function store(Request $r){
-    	// $this->validate($r, [
-    	// 	'ip' => 'unique:complaints'
-    	// ]);
+    	$this->validate($r, [
+    		'ip' => 'unique:complaints'
+    	]);
 
     	$action = Complaint::create([
     		'way' => $r->way,
