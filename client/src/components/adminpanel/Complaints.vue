@@ -19,7 +19,7 @@
 				<tr class="complaints-item" v-for="c in complaints">
 					<td>
 						<label class="switch">
-							<input type="checkbox">
+							<input type="checkbox" :checked="c.show == 1">
 							<span class="slider round"></span>
 						</label>
 					</td>
@@ -31,7 +31,9 @@
 					<td>{{ c.target }}</td>
 					<td>{{ c.created_at }}</td>
 					<td>{{ c.message }}</td>
-					<td>Delete</td>
+					<td>
+						<button><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

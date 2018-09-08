@@ -110,6 +110,7 @@
 					message: me.message,
 					ip: me.ip
 				}).then((rp) => {
+					console.log(rp)
 					if(rp.status == 201){
 						setTimeout(function() {
 							me.setLoading(false)
