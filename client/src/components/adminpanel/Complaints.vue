@@ -16,27 +16,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="complaints-item">
+				<tr class="complaints-item" v-for="c in complaints">
 					<td>
 						<label class="switch">
 							<input type="checkbox">
 							<span class="slider round"></span>
 						</label>
 					</td>
-					<td>wawas</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-					<td>Wew</td>
+					<td>{{ c.name }}</td>
+					<td>{{ c.alias }}</td>
+					<td>{{ c.ip }}</td>
+					<td>{{ c.way }}</td>
+					<td>{{ c.about }}</td>
+					<td>{{ c.target }}</td>
+					<td>{{ c.created_at }}</td>
+					<td>{{ c.message }}</td>
+					<td>Delete</td>
 				</tr>
 			</tbody>
 		</table>
@@ -45,11 +40,24 @@
 
 <script>
 	import $ from 'jquery'
+	import ComplaintServices from '../../services/ComplaintServices'
 	export default{
+		data(){
+			return{
+				complaints: []
+			}
+		},
 		methods: {
 			sort(target){
 				sortHTML('#complaints-table','.complaints-item', 'td:nth-child('+target+')')
-			}
+			},
+		},
+		mounted(){
+			let me = this
+			ComplaintServices.fetchComplaints()
+			.then((response) => {
+				me.complaints = response.data
+			})
 		}
 	}
 
