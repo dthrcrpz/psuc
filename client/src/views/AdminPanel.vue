@@ -19,13 +19,24 @@
 			</form>
 		</div>
 		<div class="container admin-container" v-if="this.$parent.isLoggedIn">
-			this is admin panel
+			<div class="left-nav">
+				<ul>
+					<li><router-link to="/admin-panel/complaints">Complaints</router-link></li>
+					<li><router-link to="/admin-panel/users">Users</router-link></li>
+					<li><router-link to="/admin-panel/logs">Logs</router-link></li>
+					<li><router-link to="/admin-panel/my-account">My Account</router-link></li>
+				</ul>
+			</div>
+			<div class="main-wrapper">
+				<complaints v-if="$route.params.target == 'complaints'"></complaints>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 	import UserServices from '../services/UserServices'
+	import Complaints from '../components/adminpanel/Complaints'
 	import jwt from 'jsonwebtoken'
 	import Cookie from 'js-cookie'
 	export default{
@@ -34,6 +45,9 @@
 				username: 'superadmin',
 				password: 'admin'
 			}
+		},
+		components: {
+			Complaints
 		},
 		methods: {
 			login(){

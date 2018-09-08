@@ -20,6 +20,11 @@ const router = new Router({
       component: () => import('./views/AdminPanel.vue')
     },
     {
+      path: '/admin-panel/:target',
+      name: 'admin-panel',
+      component: () => import('./views/AdminPanel.vue')
+    },
+    {
       path: '/complaints',
       name: 'complaints',
       component: () => import('./views/Complaints.vue')

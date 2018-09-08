@@ -273,7 +273,38 @@ body{
 		}
 	}
 	.container.admin-container{
-		background: #fff;
+		display: grid;
+		grid-template-columns: 250px auto;
+		grid-column-gap: 10px;
+		max-width: 100%;
+		.left-nav{
+			background: #fff;
+			padding: 10px 0;
+			ul{
+				list-style: none;
+				li{
+					a{
+						padding: 15px;
+						width: 100%;
+						display: block;
+						color: @primary;
+						transition: .2s;
+						&:hover{
+							background: @primary;
+							color: #fff;
+						}
+					}
+					a.router-link-active{
+						background: @primary;
+						color: @yellow;
+					}
+				}
+			}
+		}
+		.main-wrapper{
+			background: #fff;
+			padding: 20px;
+		}
 	}
 }
 
