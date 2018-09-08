@@ -304,6 +304,29 @@ body{
 		.main-wrapper{
 			background: #fff;
 			padding: 20px;
+			.complaints-component{
+				overflow: auto;
+				table{
+					border-collapse: collapse;
+					tr:nth-child(even){
+					    background-color: #ddd;
+					}
+					tr th{
+						text-align: left;
+						padding: 10px;
+						border: 1px solid #ddd;
+						.noselect;
+					}
+					tr th.sortable{
+						cursor: pointer;
+					}
+					tr td{
+						padding: 10px;
+						vertical-align: top;
+						border: 1px solid #ddd;
+					}
+				}
+			}
 		}
 	}
 }
