@@ -7,6 +7,7 @@ import DatatableFactory from 'vuejs-datatable'
 import router from './router'
 import 'nprogress/nprogress.css'
 import './assets/app.less'
+import 'font-awesome/css/font-awesome.min.css'
 
 Vue.config.productionTip = false
 

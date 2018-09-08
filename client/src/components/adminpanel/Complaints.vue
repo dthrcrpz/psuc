@@ -3,39 +3,27 @@
 		<table id="complaints-table">
 			<thead>
 				<tr>
-					<th>Show?</th>
-					<th class="sortable" @click="sort(2)">Name</th>
-					<th class="sortable" @click="sort(3)">Alias</th>
-					<th class="sortable" @click="sort(4)">IP</th>
-					<th class="sortable" @click="sort(5)">What</th>
-					<th class="sortable" @click="sort(6)">About</th>
-					<th class="sortable" @click="sort(7)">Target</th>
-					<th class="sortable" @click="sort(8)">Date Submitted</th>
-					<th class="sortable" @click="sort(9)">Message</th>
+					<th>Show on Public?</th>
+					<th class="sortable" @click="sort(2)">Name <i class="fa fa-sort" aria-hidden="true"></i></th>
+					<th class="sortable" @click="sort(3)">Alias <i class="fa fa-sort" aria-hidden="true"></i></th>
+					<th class="sortable" @click="sort(4)">IP <i class="fa fa-sort" aria-hidden="true"></i></th>
+					<th class="sortable" @click="sort(5)">What <i class="fa fa-sort" aria-hidden="true"></i></th>
+					<th class="sortable" @click="sort(6)">About <i class="fa fa-sort" aria-hidden="true"></i></th>
+					<th class="sortable" @click="sort(7)">Target <i class="fa fa-sort" aria-hidden="true"></i></th>
+					<th class="sortable" @click="sort(8)">Date Submitted <i class="fa fa-sort" aria-hidden="true"></i></th>
+					<th class="sortable" @click="sort(9)">Message <i class="fa fa-sort" aria-hidden="true"></i></th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr class="complaints-item">
-					<td>Wew</td>
+					<td>
+						<label class="switch">
+							<input type="checkbox">
+							<span class="slider round"></span>
+						</label>
+					</td>
 					<td>wawas</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Wew</td>
-					<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-					<td>Wew</td>
-				</tr>
-				<tr class="complaints-item">
-					<td>ga</td>
-					<td>vxc</td>
 					<td>Wew</td>
 					<td>Wew</td>
 					<td>Wew</td>
