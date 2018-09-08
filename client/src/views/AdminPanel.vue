@@ -5,7 +5,7 @@
 			<p class="h3">Admin Panel</p>
 			<form @submit.prevent="login()">
 				<div class="form-group">
-					<input type="text" placeholder="Username" v-model="username">
+					<input type="text" placeholder="Username" v-model="username" autofocus>
 				</div>
 				<div class="form-group">
 					<input type="password" placeholder="Password" v-model="password">
@@ -44,13 +44,18 @@
 					password: me.password,
 				}).then((response) => {
 					var token = response.data.token
-					Cookie.set('token', token, {
-						expires: 1
+					// verify token
+					jwt.verify(token, process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
+						if(!err){
+							Cookie.set('token', token, {
+								expires: 1
+							})
+							setTimeout(function() {
+								me.$parent.isLoading = false
+								me.$parent.isLoggedIn = true
+							}, 1000)
+						}
 					})
-					setTimeout(function() {
-						me.$parent.isLoading = false
-						me.$parent.isLoggedIn = true
-					}, 2000)
 				}).catch((error) => {
 					console.log(error)
 				})

@@ -22,6 +22,7 @@ class CreateComplaintsTable extends Migration
             $table->string('about');
             $table->string('target');
             $table->text('message');
+            $table->boolean('approved')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

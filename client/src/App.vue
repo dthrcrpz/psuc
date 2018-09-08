@@ -20,6 +20,7 @@
 </template>
 
 <script>
+    import jwt from 'jsonwebtoken'
     import Cookie from 'js-cookie'
     export default{
         data(){
@@ -37,7 +38,7 @@
                     me.isLoading = false
                     me.isLoggedIn = false
                     me.$router.push('/admin-panel')
-                }, 2000)
+                }, 1000)
             }
         },
         mounted(){
@@ -46,7 +47,13 @@
             if(c == undefined){
                 me.isLoggedIn = false
             }else{
-                me.isLoggedIn = true
+                jwt.verify(Cookie.get('token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
+                    if(!err){
+                        me.isLoggedIn = true
+                    }else{
+                        me.isLoggedIn = false
+                    }
+                })
             }
         }
     }
