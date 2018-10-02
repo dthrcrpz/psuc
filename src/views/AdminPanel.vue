@@ -1,6 +1,6 @@
 <template>
 	<div class="admin-panel">
-		<div class="container login-container" v-if="this.$parent.isLoggedIn == false">
+		<div class="container login-container" v-if="this.$parent.isAdminLoggedIn == false">
 			<img src="/logo.png" class="logo">
 			<p class="h3">Admin Panel</p>
 			<form @submit.prevent="login()">
@@ -18,7 +18,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="container admin-container" v-if="this.$parent.isLoggedIn">
+		<div class="container admin-container" v-if="this.$parent.isAdminLoggedIn">
 			<div class="left-nav">
 				<ul>
 					<li><router-link to="/admin-panel/complaints"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> Complaints</router-link></li>

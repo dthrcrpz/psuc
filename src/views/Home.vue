@@ -1,6 +1,6 @@
 <template>
-	<div class="home">
-		<div class="container">
+	<div class="home admin-panel">
+		<div class="container" v-if="$parent.isClientLoggedIn">
 			<form @submit.prevent="submit()">
 				<div class="form-group">
 					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)*</label>
@@ -45,6 +45,51 @@
 				</div>
 			</form>
 		</div>
+		<div class="container login-container" v-if="this.$parent.isAdminLoggedIn == false && authState == 1">
+			<img src="/logo.png" class="logo">
+			<p class="h3">User Login</p>
+			<form @submit.prevent="clientLogin()">
+				<div class="form-group">
+					<input type="text" placeholder="Username" v-model="username" autofocus>
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="Password" v-model="password">
+				</div>
+				<div class="form-group">
+					<button type="submit">Login</button>
+					<div class="not">
+						Don't have an account? <a href="javascript:void()" @click="authState = 2">Click here to register</a>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="container login-container" v-if="this.$parent.isAdminLoggedIn == false && authState == 2">
+			<img src="/logo.png" class="logo">
+			<p class="h3">Register</p>
+			<form @submit.prevent="clientRegister()">
+				<div class="form-group">
+					<input type="text" placeholder="Your ID Number (to be verified by admin)" v-model="username" autofocus>
+				</div>
+				<div class="form-group">
+					<input type="text" placeholder="Fullname" v-model="username" autofocus>
+				</div>
+				<div class="form-group">
+					<input type="text" placeholder="Email" v-model="username" autofocus>
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="Password" v-model="password">
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="Re-enter Password" v-model="password">
+				</div>
+				<div class="form-group">
+					<button type="submit">Submit</button>
+					<div class="not">
+						Already have an account? <a href="javascript:void()">Click here to login</a>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 </template>
 
@@ -54,16 +99,30 @@
 	export default{
 		data(){
 			return{
+				// data to submit
 				way: 'none',
 				about: 'none',
 				target: 'none',
 				message: '',
 				ip: '',
 				name: '',
-				alias: ''
+				alias: '',
+
+				// others
+				authState: 2
+
+				// for login
+
+				// for registration
 			}
 		},
 		methods: {
+			clientLogin(){
+				alert(1)
+			},
+			clientRegister(){
+				alert(2)
+			},
 			submit(){
 				let me = this
 				var errors = []

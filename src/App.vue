@@ -7,8 +7,8 @@
     				<h1>PSU</h1>
     			</router-link>
                 <div class="right-nav">
-                    <router-link to="/complaints" class="normal">View Complaints</router-link>
-                    <button class="logout" @click="logout()" v-if="isLoggedIn">‹ Logout</button>
+                    <router-link to="/complaints" class="normal" v-if="isClientLoggedIn">View Complaints</router-link>
+                    <button class="logout" @click="logout()" v-if="isAdminLoggedIn">‹ Logout</button>
                 </div>
     		</div>
     	</nav>
@@ -25,7 +25,8 @@
         data(){
             return{
                 isLoading: false,
-                isLoggedIn: false
+                isAdminLoggedIn: false,
+                isClientLoggedIn: false,
             }
         },
         methods: {
@@ -35,7 +36,7 @@
                 Cookie.remove('token')
                 setTimeout(function() {
                     me.isLoading = false
-                    me.isLoggedIn = false
+                    me.isAdminLoggedIn = false
                     me.$router.push('/admin-panel')
                 }, 1000)
             }
@@ -44,13 +45,13 @@
             let me = this
             var c = Cookie.get('token')
             if(c == undefined){
-                me.isLoggedIn = false
+                me.isAdminLoggedIn = false
             }else{
                 jwt.verify(Cookie.get('token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
                     if(!err){
-                        me.isLoggedIn = true
+                        me.isAdminLoggedIn = true
                     }else{
-                        me.isLoggedIn = false
+                        me.isAdminLoggedIn = false
                     }
                 })
             }
