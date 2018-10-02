@@ -44,6 +44,6 @@ router.beforeResolve((to, from, next) => {
 router.afterEach((to, from) => {
   // Complete the animation of the route progress bar.
   NProgress.done()
-}) 
+})
 
 export default router

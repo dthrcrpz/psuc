@@ -41,7 +41,7 @@
 </template>
 
 <script>
-	import $ from 'jquery'
+	// import $ from 'jquery'
 	import ComplaintServices from '../../services/ComplaintServices'
 	export default{
 		data(){
