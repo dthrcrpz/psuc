@@ -3,10 +3,6 @@
 		<div class="container">
 			<form @submit.prevent="submit()">
 				<div class="form-group">
-					<label>Your Name (will only be visible to System Admins) *</label>
-					<input type="text" v-model="name" name="name" pattern="[a-zA-Z]+[a-zA-Z ]+" placeholder="John Doe">
-				</div>
-				<div class="form-group">
 					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)*</label>
 					<input type="text" v-model="alias" name="alias" placeholder="anon623">
 				</div>
@@ -53,6 +49,7 @@
 </template>
 
 <script>
+	import db from '../services/firebase'
 	import $ from 'jquery'
 	export default{
 		data(){
@@ -82,11 +79,6 @@
 					errors.push(1)
 				}
 
-				if(me.name == ''){
-					$('input[name="name"').addClass('has-errors')
-					errors.push(1)
-				}
-
 				if(me.alias == ''){
 					$('input[name="alias"').addClass('has-errors')
 					errors.push(1)
@@ -101,7 +93,16 @@
 				me.setLoading(true)
 
 				// saving here
-				
+				db.collection('complaints').doc().set({
+					message: me.message
+				}).then(() => {
+					console.log('Success')
+				}).catch(err => {
+					console.log('Error: '+err)
+				}).then(() => {
+					me.setLoading(false)
+					me.reset()
+				})
 			},
 			reset(){
 				let me = this

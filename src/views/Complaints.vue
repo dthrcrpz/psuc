@@ -1,7 +1,7 @@
 <template>
 	<div class="complaints">
 		<div class="container">
-			<post v-for="complaint in complaints" :key="complaint.id" :data="complaint"></post>
+			<post v-for="c in complaints" :key="c.id" :data="c"></post>
 		</div>
 	</div>
 </template>
@@ -25,8 +25,9 @@
 				db.collection('complaints').get()
 				.then(res => {
 					res.forEach(doc => {
-						console.log(doc)
-						// me.complaints.push(doc.data())
+						var toPush = doc.data()
+						toPush['id'] = doc.id
+						me.complaints.push(toPush)
 					})
 				})
 			}
