@@ -35,7 +35,6 @@
 </template>
 
 <script>
-	import UserServices from '../services/UserServices'
 	import Complaints from '../components/adminpanel/Complaints'
 	import jwt from 'jsonwebtoken'
 	import Cookie from 'js-cookie'
@@ -53,26 +52,7 @@
 			login(){
 				let me = this
 				me.$parent.isLoading = true
-				UserServices.login({
-					username: me.username,
-					password: me.password,
-				}).then((response) => {
-					var token = response.data.token
-					// verify token
-					jwt.verify(token, process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
-						if(!err){
-							Cookie.set('token', token, {
-								expires: 1
-							})
-							setTimeout(function() {
-								me.$parent.isLoading = false
-								me.$parent.isLoggedIn = true
-							}, 1000)
-						}
-					})
-				}).catch((error) => {
-					console.log(error)
-				})
+				
 			}
 		}
 	}

@@ -54,8 +54,6 @@
 
 <script>
 	import $ from 'jquery'
-	import ComplaintServices from '../services/ComplaintServices'
-	import publicip from 'public-ip'
 	export default{
 		data(){
 			return{
@@ -101,30 +99,9 @@
 				}
 
 				me.setLoading(true)
-				ComplaintServices.addComplaint({
-					name: me.name,
-					alias: me.alias,
-					way: me.way,
-					about: me.about,
-					target: me.target,
-					message: me.message,
-					ip: me.ip
-				}).then((rp) => {
-					console.log(rp)
-					if(rp.status == 201){
-						setTimeout(function() {
-							me.setLoading(false)
-							alert('Thank you for submitting your concern. We will try our best to address this issue.')
-							me.reset()
-						}, 2000)
-					}
-				}).catch((error) => {
-					console.log(error.response)
-					if(error.response.status == 422){
-						alert('You have already submitted a complaint in this device')
-					}
-					me.setLoading(false)
-				})
+
+				// saving here
+				
 			},
 			reset(){
 				let me = this
@@ -137,19 +114,12 @@
 				me.name = ''
 				me.alias = ''
 			},
-			setIP(ip){
-				this.ip = ip
-			},
 			setLoading(val){
 				this.$parent.isLoading = val
 			}
 		},
 		mounted(){
 			let me = this 
-			publicip.v4()
-				.then((rp) => {
-					this.setIP(rp)	
-				})
 		}
 	}
 

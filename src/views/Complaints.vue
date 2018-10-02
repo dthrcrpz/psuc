@@ -8,7 +8,6 @@
 
 <script>
 	import Post from '../components/Post'
-	import ComplaintServices from '../services/ComplaintServices'
 	export default{
 		data(){
 			return{
@@ -20,13 +19,7 @@
 		},
 		methods: {
 			fetchComplaints(){
-				let me = this
-				ComplaintServices.fetchComplaints()
-				.then((response) => {
-					me.complaints = response.data
-				}).catch((error) => {
-					console.log(error)
-				})
+				//
 			}
 		},
 		mounted(){

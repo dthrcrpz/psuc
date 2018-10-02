@@ -20,7 +20,6 @@
 </template>
 
 <script>
-    import jwt from 'jsonwebtoken'
     import Cookie from 'js-cookie'
     export default{
         data(){

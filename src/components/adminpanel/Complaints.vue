@@ -42,7 +42,6 @@
 
 <script>
 	// import $ from 'jquery'
-	import ComplaintServices from '../../services/ComplaintServices'
 	export default{
 		data(){
 			return{
@@ -56,10 +55,11 @@
 		},
 		mounted(){
 			let me = this
-			ComplaintServices.fetchComplaints()
-			.then((response) => {
-				me.complaints = response.data
-			})
+			// fetch here
+			// ComplaintServices.fetchComplaints()
+			// .then((response) => {
+			// 	me.complaints = response.data
+			// })
 		}
 	}
 
