@@ -68,19 +68,22 @@
 			<p class="h3">Register</p>
 			<form @submit.prevent="clientRegister()">
 				<div class="form-group">
-					<input type="text" placeholder="Your ID Number (to be verified by admin)" v-model="username" autofocus>
+					<input type="text" placeholder="Your ID Number (to be verified by admin)" v-model="reg.idnumber" autofocus>
 				</div>
 				<div class="form-group">
-					<input type="text" placeholder="Fullname" v-model="username" autofocus>
+					<input type="text" placeholder="Username" v-model="reg.username" autofocus>
 				</div>
 				<div class="form-group">
-					<input type="text" placeholder="Email" v-model="username" autofocus>
+					<input type="text" placeholder="Fullname" v-model="reg.fullname" autofocus>
 				</div>
 				<div class="form-group">
-					<input type="password" placeholder="Password" v-model="password">
+					<input type="text" placeholder="Email" v-model="reg.email" autofocus>
 				</div>
 				<div class="form-group">
-					<input type="password" placeholder="Re-enter Password" v-model="password">
+					<input type="password" placeholder="Password" v-model="reg.password">
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="Re-enter Password" v-model="reg.password2">
 				</div>
 				<div class="form-group">
 					<button type="submit">Submit</button>
@@ -109,11 +112,19 @@
 				alias: '',
 
 				// others
-				authState: 2
+				authState: 2,
 
 				// for login
 
 				// for registration
+				reg: {
+					idnumber: '',
+					username: '',
+					fullname: '',
+					email: '',
+					password: '',
+					password2: '',
+				}
 			}
 		},
 		methods: {
@@ -121,7 +132,33 @@
 				alert(1)
 			},
 			clientRegister(){
-				alert(2)
+				let me = this
+
+				// validation here
+
+				// end
+
+				me.$parent.isLoading = true
+				db.collection('users').doc().set({
+					idnumber: me.reg.idnumber,
+					username: me.reg.username,
+					fullname: me.reg.fullname,
+					email: me.reg.email,
+					password: me.reg.password,
+					role: 0
+				}).then(() => {
+					alert('Thank you for registering. The admin will approve your account within 24 hours.')
+					me.reg.idnumber = ''
+					me.reg.username = ''
+					me.reg.fullname = ''
+					me.reg.email = ''
+					me.reg.password = ''
+					me.reg.password2 = ''
+				}).catch(err => {
+					console.log('Error: '+err)
+				}).then(() => {
+					me.$parent.isLoading = false
+				})
 			},
 			submit(){
 				let me = this
