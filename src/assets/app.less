@@ -305,12 +305,14 @@ body{
 		.main-wrapper{
 			background: #fff;
 			padding: 20px;
+			overflow-x: auto;
 			.complaints-component{
 				overflow: auto;
 				table{
+					width: 100%;
 					border-collapse: collapse;
 					tr:nth-child(even){
-					    background-color: #ddd;
+					    background-color: #f1f1f1;
 					}
 					tr th{
 						text-align: left;
@@ -323,15 +325,15 @@ body{
 					}
 					tr td{
 						button{
-							background: red;
+							background: #e83939;
 							padding: 5px 10px;
 							color: #fff;
-							border: 1px solid red;
+							border: 1px solid #e83939;
 							border-radius: 4px;
 							width: 80px;
 						}
 						padding: 10px;
-						vertical-align: top;
+						vertical-align: middle;
 						border: 1px solid #ddd;
 						.switch {position: relative; display: inline-block; width: 60px; height: 34px; }
 						.switch input {display:none;}
