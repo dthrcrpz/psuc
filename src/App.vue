@@ -8,8 +8,8 @@
     			</router-link>
                 <div class="right-nav">
                     <router-link to="/complaints" class="normal" v-if="isClientLoggedIn">View Complaints</router-link>
-                    <button class="logout" @click="logout()" v-if="isAdminLoggedIn">‹ Logout</button>
-                    <button class="logout" @click="clientLogout()" v-if="isClientLoggedIn">‹ Logout</button>
+                    <button class="logout" @click="logout()" v-if="isAdminLoggedIn"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
+                    <button class="logout" @click="clientLogout()" v-if="isClientLoggedIn"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
                 </div>
     		</div>
     	</nav>
