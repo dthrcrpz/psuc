@@ -36,7 +36,7 @@
             logout(){
                 let me = this
                 me.isLoading = true
-                Cookie.remove('token')
+                Cookie.remove('admin-token')
                 setTimeout(function() {
                     me.isLoading = false
                     me.isAdminLoggedIn = false
@@ -58,11 +58,11 @@
             let me = this
 
             // for checking of admin auth state
-            var c = Cookie.get('token')
+            var c = Cookie.get('admin-token')
             if(c == undefined){
                 me.isAdminLoggedIn = false
             }else{
-                jwt.verify(Cookie.get('token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
+                jwt.verify(Cookie.get('admin-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
                     if(!err){
                         me.isAdminLoggedIn = true
                     }else{

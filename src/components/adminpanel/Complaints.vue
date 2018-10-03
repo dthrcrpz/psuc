@@ -35,13 +35,32 @@
 						<button><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
 					</td>
 				</tr>
+				<tr class="complaints-item" v-for="c in complaints">
+					<td>
+						<label class="switch">
+							<input type="checkbox" :checked="c.show == 1">
+							<span class="slider round"></span>
+						</label>
+					</td>
+					<td>{{ c.name }}</td>
+					<td>{{ c.alias }}</td>
+					<td>{{ c.ip }}</td>
+					<td>{{ c.way }}</td>
+					<td>{{ c.about }}</td>
+					<td>{{ c.target }}</td>
+					<td>{{ c.created_at }}</td>
+					<td>{{ c.message }}</td>
+					<td>
+						<button><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
 </template>
 
 <script>
-	// import $ from 'jquery'
+	import db from '../../services/firebase'
 	export default{
 		data(){
 			return{
@@ -55,11 +74,11 @@
 		},
 		mounted(){
 			let me = this
-			// fetch here
-			// ComplaintServices.fetchComplaints()
-			// .then((response) => {
-			// 	me.complaints = response.data
-			// })
+			me.$parent.isLoading = 1
+			me.$binding('complaints', db.collection('complaints'))
+			.then(() => {
+				me.$parent.isLoading = 0
+			})
 		}
 	}
 
