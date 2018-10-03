@@ -21,6 +21,7 @@
 		methods: {
 			fetchComplaints(){
 				let me = this
+				me.$parent.isLoading = 1
 				me.complaints = []
 				db.collection('complaints').get()
 				.then(res => {
@@ -29,6 +30,10 @@
 						toPush['id'] = doc.id
 						me.complaints.push(toPush)
 					})
+				}).catch(err => {
+					console.log('Error: '+err)
+				}).then(() => {
+					me.$parent.isLoading = 0
 				})
 			}
 		},
