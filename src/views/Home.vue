@@ -1,7 +1,7 @@
 <template>
 	<div class="home admin-panel">
 		<div class="container" v-if="$parent.isClientLoggedIn">
-			<form @submit.prevent="submit()">
+			<form @submit.prevent="submitComplaint()">
 				<div class="form-group">
 					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)*</label>
 					<input type="text" v-model="alias" name="alias" placeholder="anon623">
@@ -103,6 +103,7 @@
 	import $ from 'jquery'
 	import jwt from 'jsonwebtoken'
 	import Cookie from 'js-cookie'
+	import moment from 'moment'
 	import { Base64 } from 'js-base64'
 	export default{
 		data(){
@@ -201,7 +202,7 @@
 				})
 				// end
 			},
-			submit(){
+			submitComplaint(){
 				let me = this
 				var errors = []
 				// validate
@@ -231,9 +232,17 @@
 
 				// saving here
 				db.collection('complaints').doc().set({
-					message: me.message
+					alias: me.alias,
+					way: me.way,
+					about: me.about,
+					target: me.target,
+					message: me.message,
+					user_id: me.$parent.decodedClientToken.user_id,
+					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 				}).then(() => {
 					console.log('Success')
+					alert('Thank you for submitting your concern.')
 				}).catch(err => {
 					console.log('Error: '+err)
 				}).then(() => {
@@ -257,7 +266,7 @@
 			}
 		},
 		mounted(){
-			let me = this 
+			let me = this
 		}
 	}
 

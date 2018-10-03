@@ -29,6 +29,7 @@
                 isLoading: false,
                 isAdminLoggedIn: false,
                 isClientLoggedIn: false,
+                decodedClientToken: ''
             }
         },
         methods: {
@@ -78,6 +79,7 @@
                 jwt.verify(Cookie.get('client-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
                     if(!err){
                         me.isClientLoggedIn = true
+                        me.decodedClientToken = decoded
                     }else{
                         me.isClientLoggedIn = false
                     }
