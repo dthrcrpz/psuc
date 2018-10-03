@@ -50,7 +50,7 @@
 			<p class="h3">User Login</p>
 			<form @submit.prevent="clientLogin()">
 				<div class="form-group">
-					<input type="text" placeholder="Username" v-model="username" autofocus>
+					<input type="text" placeholder="Username (ID Number)" v-model="username" autofocus>
 				</div>
 				<div class="form-group">
 					<input type="password" placeholder="Password" v-model="password">
@@ -70,10 +70,6 @@
 				<div class="form-group">
 					<input type="text" placeholder="Your ID Number (to be verified by admin)" v-model="reg.idnumber" name="reg_idnumber" autofocus v-validate="'required'">
 					<span class="validation-errors">{{ errors.first('reg_idnumber') }}</span>
-				</div>
-				<div class="form-group">
-					<input type="text" placeholder="Username" v-model="reg.username" name="reg_username" v-validate="'required|alpha_num'">
-					<span class="validation-errors">{{ errors.first('reg_username') }}</span>
 				</div>
 				<div class="form-group">
 					<input type="text" placeholder="Fullname" v-model="reg.fullname" name="reg_fullname" v-validate="'required|alpha_spaces'">
@@ -146,55 +142,35 @@
 						die()
 					}else{
 						// check if data exists
+						me.$parent.isLoading = true
 						db.collection('users')
 						.where('idnumber', '==', me.reg.idnumber)
 						.get().then(res => {
-							if(!res.empty){ // if found
+							if(!res.empty){ // if exists
 								alert('Sorry. It seems like the ID Number you provided is already registered')
-								die()
+							}else{ // if doesnt exits
+								db.collection('users').doc().set({
+									idnumber: me.reg.idnumber,
+									fullname: me.reg.fullname,
+									email: me.reg.email,
+									password: Base64.encode(me.reg.password),
+									role: 0
+								}).then(() => {
+									alert('Thank you for registering. The admin will approve your account within 24 hours.')
+									me.reg.idnumber = ''
+									me.reg.fullname = ''
+									me.reg.email = ''
+									me.reg.password = ''
+									me.reg.password2 = ''
+								}).catch(err => {
+									console.log('Error: '+err)
+								})
 							}
 						}).catch(err => { console.log('Error: '+error) })
-
-						db.collection('users')
-						.where('username', '==', me.reg.username)
-						.get().then(res => {
-							if(!res.empty){ // if found
-								alert('Sorry. It seems like the Username you provided is already registered')
-								die()
-							}
-						}).catch(err => { console.log('Error: '+error) })
-
-						db.collection('users')
-						.where('email', '==', me.reg.email)
-						.get().then(res => {
-							if(!res.empty){ // if found
-								alert('Sorry. It seems like the Email you provided is already registered')
-								die()
-							}
-						}).catch(err => { console.log('Error: '+error) })
-						// end
-
-						me.$parent.isLoading = true
-						db.collection('users').doc().set({
-							idnumber: me.reg.idnumber,
-							username: me.reg.username,
-							fullname: me.reg.fullname,
-							email: me.reg.email,
-							password: Base64.encode(me.reg.password),
-							role: 0
-						}).then(() => {
-							alert('Thank you for registering. The admin will approve your account within 24 hours.')
-							me.reg.idnumber = ''
-							me.reg.username = ''
-							me.reg.fullname = ''
-							me.reg.email = ''
-							me.reg.password = ''
-							me.reg.password2 = ''
-						}).catch(err => {
-							console.log('Error: '+err)
-						}).then(() => {
+						.then(() => {
 							me.$parent.isLoading = false
 						})
+
 					}
 				})
 				// end
