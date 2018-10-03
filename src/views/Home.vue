@@ -45,7 +45,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="container login-container" v-if="this.$parent.isAdminLoggedIn == false && authState == 1">
+		<div class="container login-container" v-if="this.$parent.isClientLoggedIn == false && authState == 1">
 			<img src="/logo.png" class="logo">
 			<p class="h3">User Login</p>
 			<form @submit.prevent="clientLogin()">
@@ -63,7 +63,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="container login-container" v-if="this.$parent.isAdminLoggedIn == false && authState == 2">
+		<div class="container login-container" v-if="this.$parent.isClientLoggedIn == false && authState == 2">
 			<img src="/logo.png" class="logo">
 			<p class="h3">Register</p>
 			<form @submit.prevent="clientRegister()">

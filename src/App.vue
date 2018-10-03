@@ -21,6 +21,7 @@
 
 <script>
     import Cookie from 'js-cookie'
+    import jwt from 'jsonwebtoken'
     export default{
         data(){
             return{
