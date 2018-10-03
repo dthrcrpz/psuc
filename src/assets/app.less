@@ -199,7 +199,7 @@ body{
 }
 .validation-errors{
 	color: red;
-	font-size: 14px;
+	font-size: 12px;
 }
 .loading-container{
 	position: fixed;
@@ -387,5 +387,11 @@ body{
 			}
 		}
 	}
+}
+input[aria-invalid=true]{
+	border: 1px solid red !important;
+}
+input{
+	transition: .2s;
 }
 // wew

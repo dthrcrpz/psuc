@@ -68,27 +68,33 @@
 			<p class="h3">Register</p>
 			<form @submit.prevent="clientRegister()">
 				<div class="form-group">
-					<input type="text" placeholder="Your ID Number (to be verified by admin)" v-model="reg.idnumber" autofocus>
+					<input type="text" placeholder="Your ID Number (to be verified by admin)" v-model="reg.idnumber" name="reg_idnumber" autofocus v-validate="'required'">
+					<span class="validation-errors">{{ errors.first('reg_idnumber') }}</span>
 				</div>
 				<div class="form-group">
-					<input type="text" placeholder="Username" v-model="reg.username" autofocus>
+					<input type="text" placeholder="Username" v-model="reg.username" name="reg_username" v-validate="'required|alpha_num'">
+					<span class="validation-errors">{{ errors.first('reg_username') }}</span>
 				</div>
 				<div class="form-group">
-					<input type="text" placeholder="Fullname" v-model="reg.fullname" autofocus>
+					<input type="text" placeholder="Fullname" v-model="reg.fullname" name="reg_fullname" v-validate="'required|alpha_spaces'">
+					<span class="validation-errors">{{ errors.first('reg_fullname') }}</span>
 				</div>
 				<div class="form-group">
-					<input type="text" placeholder="Email" v-model="reg.email" autofocus>
+					<input type="text" placeholder="Email" v-model="reg.email" name="reg_email" v-validate="'required|email'">
+					<span class="validation-errors">{{ errors.first('reg_email') }}</span>
 				</div>
 				<div class="form-group">
-					<input type="password" placeholder="Password" v-model="reg.password">
+					<input type="password" placeholder="Password" v-model="reg.password" name="reg_password" v-validate="'required|min:8|confirmed:reg_password2'">
+					<span class="validation-errors">{{ errors.first('reg_password') }}</span>
 				</div>
 				<div class="form-group">
-					<input type="password" placeholder="Re-enter Password" v-model="reg.password2">
+					<input type="password" placeholder="Confirm Password" v-model="reg.password2" name="reg_password2" ref="reg_password2" v-validate="'required'">
+					<span class="validation-errors">{{ errors.first('reg_password2') }}</span>
 				</div>
 				<div class="form-group">
 					<button type="submit">Submit</button>
 					<div class="not">
-						Already have an account? <a href="javascript:void()">Click here to login</a>
+						Already have an account? <a href="javascript:void()" @click="authState = 1">Click here to login</a>
 					</div>
 				</div>
 			</form>
@@ -99,6 +105,7 @@
 <script>
 	import db from '../services/firebase'
 	import $ from 'jquery'
+	import { Base64 } from 'js-base64'
 	export default{
 		data(){
 			return{
@@ -133,32 +140,64 @@
 			},
 			clientRegister(){
 				let me = this
-
 				// validation here
+				me.$validator.validate().then(res => {
+					if(!res){ // do not proceed
+						die()
+					}else{
+						// check if data exists
+						db.collection('users')
+						.where('idnumber', '==', me.reg.idnumber)
+						.get().then(res => {
+							if(!res.empty){ // if found
+								alert('Sorry. It seems like the ID Number you provided is already registered')
+								die()
+							}
+						}).catch(err => { console.log('Error: '+error) })
 
-				// end
+						db.collection('users')
+						.where('username', '==', me.reg.username)
+						.get().then(res => {
+							if(!res.empty){ // if found
+								alert('Sorry. It seems like the Username you provided is already registered')
+								die()
+							}
+						}).catch(err => { console.log('Error: '+error) })
 
-				me.$parent.isLoading = true
-				db.collection('users').doc().set({
-					idnumber: me.reg.idnumber,
-					username: me.reg.username,
-					fullname: me.reg.fullname,
-					email: me.reg.email,
-					password: me.reg.password,
-					role: 0
-				}).then(() => {
-					alert('Thank you for registering. The admin will approve your account within 24 hours.')
-					me.reg.idnumber = ''
-					me.reg.username = ''
-					me.reg.fullname = ''
-					me.reg.email = ''
-					me.reg.password = ''
-					me.reg.password2 = ''
-				}).catch(err => {
-					console.log('Error: '+err)
-				}).then(() => {
-					me.$parent.isLoading = false
+						db.collection('users')
+						.where('email', '==', me.reg.email)
+						.get().then(res => {
+							if(!res.empty){ // if found
+								alert('Sorry. It seems like the Email you provided is already registered')
+								die()
+							}
+						}).catch(err => { console.log('Error: '+error) })
+						// end
+
+						me.$parent.isLoading = true
+						db.collection('users').doc().set({
+							idnumber: me.reg.idnumber,
+							username: me.reg.username,
+							fullname: me.reg.fullname,
+							email: me.reg.email,
+							password: Base64.encode(me.reg.password),
+							role: 0
+						}).then(() => {
+							alert('Thank you for registering. The admin will approve your account within 24 hours.')
+							me.reg.idnumber = ''
+							me.reg.username = ''
+							me.reg.fullname = ''
+							me.reg.email = ''
+							me.reg.password = ''
+							me.reg.password2 = ''
+						}).catch(err => {
+							console.log('Error: '+err)
+						}).then(() => {
+							me.$parent.isLoading = false
+						})
+					}
 				})
+				// end
 			},
 			submit(){
 				let me = this
