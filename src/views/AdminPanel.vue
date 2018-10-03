@@ -38,6 +38,7 @@
 	import Complaints from '../components/adminpanel/Complaints'
 	import jwt from 'jsonwebtoken'
 	import Cookie from 'js-cookie'
+	import db from '../services/firebase'
 	export default{
 		data(){
 			return{
@@ -52,6 +53,27 @@
 			login(){
 				let me = this
 				me.$parent.isLoading = true
+				db.collection('users')
+				.where('username', '==', me.username)
+				.where('password', '==', me.password)
+				.where('role', '==', 1)
+				.get().then(res => {
+					if(!res.empty){ // if matched
+						let encoded = jwt.sign({
+							user_id: res.docs[0].id
+						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
+						Cookie.set('admin-token', encoded)
+						me.$parent.isAdminLoggedIn = true
+					}else{
+						alert('Invalid credentials. Please try again.')
+						Cookie.remove('admin-token')
+						me.$parent.isAdminLoggedIn = false
+					}
+				}).catch(err => {
+					console.log('Error: '+err)
+				}).then(() => {
+					me.$parent.isLoading = false
+				})
 			},
 			clientLogout(){
                 let me = this
