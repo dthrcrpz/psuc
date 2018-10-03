@@ -27,11 +27,29 @@
 				<p class="value">{{ data.message }}</p>
 			</div>
 		</div>
+		<button class="delete" @click="confirmDelete(data['.key'])" v-if="data.user_id == $parent.$parent.decodedClientToken.user_id"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 	</div>
 </template>
 
 <script>
+	import db from '../services/firebase'
 	export default{
-		props: ['data']
+		props: ['data'],
+		methods: {
+			confirmDelete(id){
+				let me = this
+				var deleteme = confirm('Are you sure you want to delete this post?')
+				if(deleteme){
+					me.$parent.$parent.isLoading = 1
+					db.collection('complaints').doc(id).delete().then(() => {
+						console.log('Deleted successfully')
+					}).catch(err => {
+						console.log(err)
+					}).then(() => {
+						me.$parent.$parent.isLoading = 0
+					})
+				}
+			}
+		}
 	}
 </script>

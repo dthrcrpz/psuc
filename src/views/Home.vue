@@ -144,6 +144,7 @@
 				db.collection('users')
 				.where('username', '==', me.login.username)
 				.where('password', '==', me.login.password)
+				.where('approved', '==', true)
 				.get().then(res => {
 					if(!res.empty){ // if matched
 						let encoded = jwt.sign({
@@ -152,7 +153,7 @@
 						Cookie.set('client-token', encoded)
 						me.$parent.isClientLoggedIn = true
 					}else{
-						alert('Invalid Username or Password. Please try again.')
+						alert('Invalid credentials or your account has not been approved by the administrator. Please try again.')
 						Cookie.remove('client-token')
 						me.$parent.isClientLoggedIn = false
 					}
@@ -182,7 +183,8 @@
 									fullname: me.reg.fullname,
 									email: me.reg.email,
 									password: me.reg.password,
-									role: 0
+									role: 0,
+									approved: false
 								}).then(() => {
 									alert('Thank you for registering. The admin will approve your account within 24 hours.')
 									me.reg.idnumber = ''
@@ -240,6 +242,7 @@
 					target: me.target,
 					message: me.message,
 					user_id: userID,
+					showToPublic: false,
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 				}).then(() => {

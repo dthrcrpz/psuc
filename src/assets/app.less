@@ -374,6 +374,22 @@ body{
 	padding-bottom: 10px;
 	margin-bottom: 20px;
 	font-size: 15px;
+	position: relative;
+	padding-right: 30px;
+	@media(max-width: 768px){
+		grid-template-columns: auto;
+	}
+	.delete{
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: 1px solid #e83939;
+		background: #e83939;
+		color: #fff;
+		padding: 5px 6px;
+		font-size: 14px;
+		border-radius: 3px;
+	}
 	.col{
 		.info-group{
 			margin-bottom: 10px;
