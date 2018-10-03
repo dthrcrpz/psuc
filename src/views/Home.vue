@@ -50,10 +50,10 @@
 			<p class="h3">User Login</p>
 			<form @submit.prevent="clientLogin()">
 				<div class="form-group">
-					<input type="text" placeholder="Username (ID Number)" v-model="username" autofocus>
+					<input type="text" placeholder="Username (ID Number)" v-model="login.username" autofocus>
 				</div>
 				<div class="form-group">
-					<input type="password" placeholder="Password" v-model="password">
+					<input type="password" placeholder="Password" v-model="login.password">
 				</div>
 				<div class="form-group">
 					<button type="submit">Login</button>
@@ -101,6 +101,8 @@
 <script>
 	import db from '../services/firebase'
 	import $ from 'jquery'
+	import jwt from 'jsonwebtoken'
+	import Cookie from 'js-cookie'
 	import { Base64 } from 'js-base64'
 	export default{
 		data(){
@@ -115,9 +117,13 @@
 				alias: '',
 
 				// others
-				authState: 2,
+				authState: 1,
 
 				// for login
+				login: {
+					username: 'teryong',
+					password: 'admin123'
+				},
 
 				// for registration
 				reg: {
@@ -132,7 +138,27 @@
 		},
 		methods: {
 			clientLogin(){
-				alert(1)
+				let me = this
+				me.$parent.isLoading = true
+				db.collection('users')
+				.where('username', '==', me.login.username)
+				.where('password', '==', me.login.password)
+				.get().then(res => {
+					if(!res.empty){ // if matched
+						let encoded = jwt.sign({
+							user_id: res.docs[0].id
+						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
+						Cookie.set('client-token', encoded)
+						me.$parent.isClientLoggedIn = true
+					}else{
+						Cookie.remove('client-token')
+						me.$parent.isClientLoggedIn = false
+					}
+				}).catch(err => {
+					console.log('Error: '+err)
+				}).then(() => {
+					me.$parent.isLoading = false
+				})
 			},
 			clientRegister(){
 				let me = this
@@ -153,7 +179,7 @@
 									idnumber: me.reg.idnumber,
 									fullname: me.reg.fullname,
 									email: me.reg.email,
-									password: Base64.encode(me.reg.password),
+									password: me.reg.password,
 									role: 0
 								}).then(() => {
 									alert('Thank you for registering. The admin will approve your account within 24 hours.')

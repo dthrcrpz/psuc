@@ -43,6 +43,8 @@
         },
         mounted(){
             let me = this
+
+            // for checking of admin auth state
             var c = Cookie.get('token')
             if(c == undefined){
                 me.isAdminLoggedIn = false
@@ -52,6 +54,20 @@
                         me.isAdminLoggedIn = true
                     }else{
                         me.isAdminLoggedIn = false
+                    }
+                })
+            }
+
+            // for checking of client auth state
+            var x = Cookie.get('client-token')
+            if(x == undefined){
+                me.isClientLoggedIn = false
+            }else{
+                jwt.verify(Cookie.get('client-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
+                    if(!err){
+                        me.isClientLoggedIn = true
+                    }else{
+                        me.isClientLoggedIn = false
                     }
                 })
             }
