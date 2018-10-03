@@ -15,10 +15,18 @@
 		components: {
 			Post
 		},
-		firestore(){
+		data(){
 			return{
-				complaints: db.collection('complaints')
+				complaints: []
 			}
 		},
+		mounted(){
+			let me = this
+			me.$parent.isLoading = 1
+			me.$binding('complaints', db.collection('complaints'))
+			.then(() => {
+				me.$parent.isLoading = 0
+			})
+		}
 	}
 </script>
