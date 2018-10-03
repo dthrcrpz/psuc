@@ -52,8 +52,18 @@
 			login(){
 				let me = this
 				me.$parent.isLoading = true
-				
-			}
+			},
+			clientLogout(){
+                let me = this
+                me.isLoading = true
+                Cookie.remove('client-token')
+                me.$parent.isLoading = false
+                me.$parent.isClientLoggedIn = false
+            }
+		},
+		mounted(){
+			let me = this
+			me.clientLogout()
 		}
 	}
 </script>
