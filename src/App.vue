@@ -9,6 +9,7 @@
                 <div class="right-nav">
                     <router-link to="/complaints" class="normal" v-if="isClientLoggedIn">View Complaints</router-link>
                     <button class="logout" @click="logout()" v-if="isAdminLoggedIn">‹ Logout</button>
+                    <button class="logout" @click="clientLogout()" v-if="isClientLoggedIn">‹ Logout</button>
                 </div>
     		</div>
     	</nav>
@@ -39,6 +40,16 @@
                     me.isLoading = false
                     me.isAdminLoggedIn = false
                     me.$router.push('/admin-panel')
+                }, 1000)
+            },
+            clientLogout(){
+                let me = this
+                me.isLoading = true
+                Cookie.remove('client-token')
+                setTimeout(function() {
+                    me.isLoading = false
+                    me.isClientLoggedIn = false
+                    me.$router.push('/')
                 }, 1000)
             }
         },
