@@ -152,6 +152,7 @@
 						Cookie.set('client-token', encoded)
 						me.$parent.isClientLoggedIn = true
 					}else{
+						alert('Invalid Username or Password. Please try again.')
 						Cookie.remove('client-token')
 						me.$parent.isClientLoggedIn = false
 					}
@@ -231,13 +232,14 @@
 				me.setLoading(true)
 
 				// saving here
+				let userID = me.$parent.decodedClientToken.user_id
 				db.collection('complaints').doc().set({
 					alias: me.alias,
 					way: me.way,
 					about: me.about,
 					target: me.target,
 					message: me.message,
-					user_id: me.$parent.decodedClientToken.user_id,
+					user_id: userID,
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 				}).then(() => {
