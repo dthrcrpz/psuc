@@ -19,7 +19,7 @@
 				<tr class="complaints-item" v-for="c in complaints">
 					<td>
 						<label class="switch">
-							<input type="checkbox" :checked="c.show == 1">
+							<input type="checkbox" :checked="c.showToPublic" :data-checked="c.showToPublic" @change.prevent="toggleShowToPublic($event, c['.key'])">
 							<span class="slider round"></span>
 						</label>
 					</td>
@@ -42,6 +42,7 @@
 
 <script>
 	import db from '../../services/firebase'
+	import $ from 'jquery'
 	export default{
 		data(){
 			return{
@@ -55,6 +56,21 @@
 			}
 		},
 		methods: {
+			toggleShowToPublic(e, id){
+				let me = this
+				let el = e.target
+				me.$parent.$parent.isLoading = 1
+				// check if I am currently shown to public
+				db.collection('complaints').doc('zNgUVmTybNnnjo51oqT4').update({
+					showToPublic: true
+				}).then(res => {
+					console.log(res)
+				}).catch(err => {
+					console.log('Error: '+err)
+				}).then(() => {
+					me.$parent.$parent.isLoading = 0
+				})
+			},
 			viewMessage(message){
 				let me = this
 				me.$parent.message = message
