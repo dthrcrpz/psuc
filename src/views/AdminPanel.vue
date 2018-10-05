@@ -31,6 +31,20 @@
 				<complaints v-if="$route.params.target == 'complaints'"></complaints>
 			</div>
 		</div>
+
+		<transition name="fade">
+			<div class="modal-container" v-if="showMessageModal">
+				<div class="table-cell">
+					<div class="modal">
+						{{ message }}
+						<hr>
+						<div class="lower">
+							<button class="close" @click="showMessageModal = false">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</transition>
 	</div>
 </template>
 
@@ -43,7 +57,9 @@
 		data(){
 			return{
 				username: 'superadmin',
-				password: 'admin'
+				password: 'admin',
+				message: '',
+				showMessageModal: false,
 			}
 		},
 		components: {

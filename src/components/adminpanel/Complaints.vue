@@ -30,7 +30,7 @@
 					<td>{{ c.target }}</td>
 					<td>{{ c.created_at }}</td>
 					<td>{{ c.updated_at }}</td>
-					<td>{{ c.message | str_limit }} <button class="view-message"><i class="fa fa-eye" aria-hidden="true"></i> View</button></td>
+					<td>{{ c.message | str_limit }} <button class="view-message" @click="viewMessage(c.message)"><i class="fa fa-eye" aria-hidden="true"></i> View</button></td>
 					<td>
 						<button><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
 					</td>
@@ -55,6 +55,11 @@
 			}
 		},
 		methods: {
+			viewMessage(message){
+				let me = this
+				me.$parent.message = message
+				me.$parent.showMessageModal = true
+			},
 			sort(target){
 				sortHTML('#complaints-table','.complaints-item', 'td:nth-child('+target+')')
 			},
