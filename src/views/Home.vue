@@ -268,7 +268,14 @@
 			},
 			setLoading(val){
 				this.$parent.isLoading = val
-			}
+			},
+			adminLogout(){
+                let me = this
+                me.isLoading = true
+                Cookie.remove('admin-token')
+                me.$parent.isLoading = false
+                me.$parent.isAdminLoggedIn = false
+            }
 		},
 		mounted(){
 			let me = this
