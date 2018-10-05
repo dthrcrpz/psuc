@@ -32,7 +32,7 @@
 					<td>{{ c.updated_at }}</td>
 					<td>{{ c.message | str_limit }} <button class="view-message" @click="viewMessage(c.message)"><i class="fa fa-eye" aria-hidden="true"></i> View</button></td>
 					<td>
-						<button><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+						<button @click="confirmDelete(c['.key'])"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
 					</td>
 				</tr>
 			</tbody>
@@ -63,6 +63,22 @@
 			sort(target){
 				sortHTML('#complaints-table','.complaints-item', 'td:nth-child('+target+')')
 			},
+			confirmDelete(id){
+				let me = this
+				let deleteme = confirm('Are you sure you want to delete this post?')
+				if(deleteme){
+					me.$parent.$parent.isLoading = 1
+					db.collection('complaints').doc(id).delete().then(() => {
+						console.log('Deleted successfully')
+					}).catch(err => {
+						console.log(err)
+					}).then(() => {
+						me.$parent.$parent.isLoading = 0
+					})
+				}else{
+					alert('good')
+				}
+			}
 		},
 		mounted(){
 			let me = this
