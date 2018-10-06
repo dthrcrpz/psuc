@@ -12,6 +12,7 @@ let config = {
 
 let firebaseApp = Firebase.initializeApp(config)
 const firestore = firebaseApp.firestore()
+
 firestore.settings({
 	timestampsInSnapshots: true
 })
