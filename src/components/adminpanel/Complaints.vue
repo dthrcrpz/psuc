@@ -59,10 +59,12 @@
 			toggleShowToPublic(e, id){
 				let me = this
 				let el = e.target
+				let isChecked = $(el).data('checked')
+
 				me.$parent.$parent.isLoading = 1
 				// check if I am currently shown to public
-				db.collection('complaints').doc('zNgUVmTybNnnjo51oqT4').update({
-					showToPublic: true
+				db.collection('complaints').doc(id).update({
+					showToPublic: (isChecked) ? false : true
 				}).then(res => {
 					console.log(res)
 				}).catch(err => {
@@ -99,7 +101,7 @@
 		mounted(){
 			let me = this
 			me.$parent.$parent.isLoading = 1
-			me.$binding('complaints', db.collection('complaints'))
+			me.$binding('complaints', db.collection('complaints').orderBy('created_at', 'desc'))
 			.then(() => {
 				me.$parent.$parent.isLoading = 0
 			})
