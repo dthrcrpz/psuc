@@ -125,8 +125,8 @@
 
 				// for login
 				login: {
-					username: 'teryong',
-					password: 'admin123'
+					username: '',
+					password: ''
 				},
 
 				// for registration

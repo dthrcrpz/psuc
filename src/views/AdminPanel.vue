@@ -60,8 +60,8 @@
 	export default{
 		data() {
 			return{
-				username: 'superadmin',
-				password: 'admin',
+				username: '',
+				password: '',
 				message: '',
 				showMessageModal: false,
 			}
