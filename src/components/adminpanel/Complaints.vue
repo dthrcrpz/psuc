@@ -23,7 +23,7 @@
 							<span class="slider round"></span>
 						</label>
 					</td>
-					<td>{{ c.user_id | submittedBy }}</td>
+					<td>{{ c.real_name }}</td>
 					<td>{{ c.alias }}</td>
 					<td>{{ c.way }}</td>
 					<td>{{ c.about }}</td>
@@ -54,12 +54,6 @@
 				let x = str.substr(0, 10) + ' ...'
 				return x
 			},
-			submittedBy(user_id){
-				db.collection('users').doc(user_id).get().then(res => {
-					user = 'wew'
-					return 'dsadsa'
-				})
-			}
 		},
 		methods: {
 			toggleShowToPublic(e, id){

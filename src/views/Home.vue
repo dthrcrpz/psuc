@@ -148,10 +148,15 @@
 				.get().then(res => {
 					if(!res.empty){ // if matched
 						let encoded = jwt.sign({
-							user_id: res.docs[0].id
+							user_id: res.docs[0].id,
+							real_name: res.docs[0].data().fullname
 						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
 						Cookie.set('client-token', encoded)
 						me.$parent.isClientLoggedIn = true
+
+						jwt.verify(Cookie.get('client-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
+		                    me.$parent.decodedClientToken = decoded
+			            })
 					}else{
 						alert('Invalid credentials or your account has not been approved by the administrator. Please try again.')
 						Cookie.remove('client-token')
@@ -235,6 +240,7 @@
 
 				// saving here
 				let userID = me.$parent.decodedClientToken.user_id
+				let realName = me.$parent.decodedClientToken.real_name
 				db.collection('complaints').doc().set({
 					alias: me.alias,
 					way: me.way,
@@ -243,6 +249,7 @@
 					message: me.message,
 					user_id: userID,
 					showToPublic: false,
+					real_name: realName,
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 				}).then(() => {
