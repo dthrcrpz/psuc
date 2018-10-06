@@ -19,7 +19,7 @@
 				<tr class="complaints-item" v-for="c in complaints">
 					<td>
 						<label class="switch">
-							<input type="checkbox" :checked="c.showToPublic" :data-checked="c.showToPublic" @change.prevent="toggleShowToPublic($event, c['.key'])">
+							<input type="checkbox" :checked="c.showToPublic" @change.prevent="toggleShowToPublic($event,c['.key'], c.showToPublic)">
 							<span class="slider round"></span>
 						</label>
 					</td>
@@ -56,15 +56,14 @@
 			},
 		},
 		methods: {
-			toggleShowToPublic(e, id){
+			toggleShowToPublic(e, id, show){
 				let me = this
 				let el = e.target
-				let isChecked = $(el).data('checked')
 
 				me.$parent.$parent.isLoading = 1
 				// check if I am currently shown to public
 				db.collection('complaints').doc(id).update({
-					showToPublic: (isChecked) ? false : true
+					showToPublic: !show
 				}).then(res => {
 					console.log(res)
 				}).catch(err => {
