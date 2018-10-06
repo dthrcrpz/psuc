@@ -26,7 +26,7 @@
 					<td>{{ user.created_at }}</td>
 					<td>{{ user.updated_at }}</td>
 					<td>
-						<button ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+						<button @click="confirmDelete(user['.key'])"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
 					</td>
 				</tr>
 			</tbody>
@@ -48,6 +48,20 @@
 			sort(target){
 				sortHTML('#complaints-table','.complaints-item', 'td:nth-child('+target+')')
 			},
+			confirmDelete(id){
+				let me = this
+				let deleteme = confirm('Are you sure you want to delete this post?')
+				if(deleteme){
+					me.$parent.$parent.isLoading = 1
+					db.collection('users').doc(id).delete().then(() => {
+						console.log('Deleted successfully')
+					}).catch(err => {
+						console.log(err)
+					}).then(() => {
+						me.$parent.$parent.isLoading = 0
+					})
+				}
+			}
 		},
 		mounted(){
 			let me = this

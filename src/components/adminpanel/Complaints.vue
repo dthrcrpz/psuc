@@ -92,8 +92,6 @@
 					}).then(() => {
 						me.$parent.$parent.isLoading = 0
 					})
-				}else{
-					alert('good')
 				}
 			}
 		},
