@@ -192,7 +192,9 @@
 									email: me.reg.email,
 									password: me.reg.password,
 									role: 0,
-									approved: false
+									approved: false,
+									created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+									updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 								}).then(() => {
 									alert('Thank you for registering. The admin will approve your account within 24 hours.')
 									me.reg.idnumber = ''

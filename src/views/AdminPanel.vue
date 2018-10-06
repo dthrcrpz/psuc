@@ -29,6 +29,7 @@
 			</div>
 			<div class="main-wrapper">
 				<complaints v-if="$route.params.target == 'complaints'"></complaints>
+				<users v-if="$route.params.target == 'users'"></users>
 			</div>
 		</div>
 
@@ -50,6 +51,7 @@
 
 <script>
 	import Complaints from '../components/adminpanel/Complaints'
+	import Users from '../components/adminpanel/Users'
 	import jwt from 'jsonwebtoken'
 	import Cookie from 'js-cookie'
 	import db from '../services/firebase'
@@ -63,14 +65,14 @@
 			}
 		},
 		components: {
-			Complaints
+			Complaints, Users
 		},
 		methods: {
 			login(){
 				let me = this
 				me.$parent.isLoading = true
 				db.collection('users')
-				.where('username', '==', me.username)
+				.where('idnumber', '==', me.username)
 				.where('password', '==', me.password)
 				.where('role', '==', 1)
 				.get().then(res => {
