@@ -81,11 +81,11 @@
 						<span class="validation-errors">{{ errors.first('reg_email') }}</span>
 					</div>
 					<div class="form-group">
-						<input type="password" placeholder="Password" v-model="reg.password" name="reg_password" v-validate="'required|min:8|confirmed:reg_password2'">
+						<input type="password" placeholder="Password" v-model="reg.password" name="reg_password" v-validate="'required|min:8'" ref="reg_password">
 						<span class="validation-errors">{{ errors.first('reg_password') }}</span>
 					</div>
 					<div class="form-group">
-						<input type="password" placeholder="Confirm Password" v-model="reg.password2" name="reg_password2" ref="reg_password2" v-validate="'required'">
+						<input type="password" placeholder="Confirm Password" v-model="reg.password2" name="reg_password2" v-validate="'required||confirmed:reg_password'">
 						<span class="validation-errors">{{ errors.first('reg_password2') }}</span>
 					</div>
 					<div class="form-group">
