@@ -24,7 +24,7 @@
     import Cookie from 'js-cookie'
     import jwt from 'jsonwebtoken'
     export default{
-        data(){
+        data() {
             return{
                 isLoading: false,
                 isAdminLoggedIn: false,
@@ -33,7 +33,7 @@
             }
         },
         methods: {
-            logout(){
+            logout() {
                 let me = this
                 me.isLoading = true
                 Cookie.remove('admin-token')
@@ -43,7 +43,7 @@
                     me.$router.push('/admin-panel')
                 }, 1000)
             },
-            clientLogout(){
+            clientLogout() {
                 let me = this
                 me.isLoading = true
                 Cookie.remove('client-token')
@@ -54,16 +54,16 @@
                 }, 1000)
             }
         },
-        mounted(){
+        mounted() {
             let me = this
 
             // for checking of admin auth state
             var c = Cookie.get('admin-token')
-            if(c == undefined){
+            if(c == undefined) {
                 me.isAdminLoggedIn = false
             }else{
                 jwt.verify(Cookie.get('admin-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
-                    if(!err){
+                    if(!err) {
                         me.isAdminLoggedIn = true
                     }else{
                         me.isAdminLoggedIn = false
@@ -73,11 +73,11 @@
 
             // for checking of client auth state
             var x = Cookie.get('client-token')
-            if(x == undefined){
+            if(x == undefined) {
                 me.isClientLoggedIn = false
             }else{
                 jwt.verify(Cookie.get('client-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
-                    if(!err){
+                    if(!err) {
                         me.isClientLoggedIn = true
                         me.decodedClientToken = decoded
                     }else{

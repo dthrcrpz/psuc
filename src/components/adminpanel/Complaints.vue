@@ -44,19 +44,19 @@
 	import db from '../../services/firebase'
 	import $ from 'jquery'
 	export default{
-		data(){
+		data() {
 			return{
 				complaints: []
 			}
 		},
 		filters: {
-			str_limit(str){
+			str_limit(str) {
 				let x = str.substr(0, 10) + ' ...'
 				return x
 			},
 		},
 		methods: {
-			toggleShowToPublic(e, id, show){
+			toggleShowToPublic(e, id, show) {
 				let me = this
 				let el = e.target
 
@@ -72,18 +72,18 @@
 					me.$parent.$parent.isLoading = 0
 				})
 			},
-			viewMessage(message){
+			viewMessage(message) {
 				let me = this
 				me.$parent.message = message
 				me.$parent.showMessageModal = true
 			},
-			sort(target){
+			sort(target) {
 				sortHTML('#complaints-table','.complaints-item', 'td:nth-child('+target+')')
 			},
-			confirmDelete(id){
+			confirmDelete(id) {
 				let me = this
 				let deleteme = confirm('Are you sure you want to delete this post?')
-				if(deleteme){
+				if(deleteme) {
 					me.$parent.$parent.isLoading = 1
 					db.collection('complaints').doc(id).delete().then(() => {
 						console.log('Deleted successfully')
@@ -95,7 +95,7 @@
 				}
 			}
 		},
-		mounted(){
+		mounted() {
 			let me = this
 			me.$parent.$parent.isLoading = 1
 			me.$binding('complaints', db.collection('complaints').orderBy('created_at', 'desc'))

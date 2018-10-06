@@ -39,13 +39,13 @@
 	import $ from 'jquery'
 
 	export default{
-		data(){
+		data() {
 			return{
 				users: []
 			}
 		},
 		methods: {
-			toggleApproved(e, id, approved){
+			toggleApproved(e, id, approved) {
 				let me = this
 				let el = e.target
 
@@ -61,13 +61,13 @@
 					me.$parent.$parent.isLoading = 0
 				})
 			},
-			sort(target){
+			sort(target) {
 				sortHTML('#complaints-table','.complaints-item', 'td:nth-child('+target+')')
 			},
-			confirmDelete(id){
+			confirmDelete(id) {
 				let me = this
 				let deleteme = confirm('Are you sure you want to delete this post?')
-				if(deleteme){
+				if(deleteme) {
 					me.$parent.$parent.isLoading = 1
 					db.collection('users').doc(id).delete().then(() => {
 						console.log('Deleted successfully')
@@ -79,7 +79,7 @@
 				}
 			}
 		},
-		mounted(){
+		mounted() {
 			let me = this
 			me.$parent.$parent.isLoading = 1
 			me.$binding('users', db.collection('users').orderBy('created_at', 'desc'))

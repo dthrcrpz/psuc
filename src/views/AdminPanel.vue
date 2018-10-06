@@ -30,6 +30,7 @@
 			<div class="main-wrapper">
 				<complaints v-if="$route.params.target == 'complaints'"></complaints>
 				<users v-if="$route.params.target == 'users'"></users>
+				<my-account v-if="$route.params.target == 'my-account'"></my-account>
 			</div>
 		</div>
 
@@ -52,11 +53,12 @@
 <script>
 	import Complaints from '../components/adminpanel/Complaints'
 	import Users from '../components/adminpanel/Users'
+	import MyAccount from '../components/adminpanel/MyAccount'
 	import jwt from 'jsonwebtoken'
 	import Cookie from 'js-cookie'
 	import db from '../services/firebase'
 	export default{
-		data(){
+		data() {
 			return{
 				username: 'superadmin',
 				password: 'admin',
@@ -65,10 +67,10 @@
 			}
 		},
 		components: {
-			Complaints, Users
+			Complaints, Users, MyAccount
 		},
 		methods: {
-			login(){
+			login() {
 				let me = this
 				me.$parent.isLoading = true
 				db.collection('users')
@@ -76,7 +78,7 @@
 				.where('password', '==', me.password)
 				.where('role', '==', 1)
 				.get().then(res => {
-					if(!res.empty){ // if matched
+					if(!res.empty) { // if matched
 						let encoded = jwt.sign({
 							user_id: res.docs[0].id
 						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
@@ -93,7 +95,7 @@
 					me.$parent.isLoading = false
 				})
 			},
-			clientLogout(){
+			clientLogout() {
                 let me = this
                 me.isLoading = true
                 Cookie.remove('client-token')
@@ -101,7 +103,7 @@
                 me.$parent.isClientLoggedIn = false
             }
 		},
-		mounted(){
+		mounted() {
 			let me = this
 			me.clientLogout()
 		}

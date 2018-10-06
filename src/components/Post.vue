@@ -36,10 +36,10 @@
 	export default{
 		props: ['data'],
 		methods: {
-			confirmDelete(id){
+			confirmDelete(id) {
 				let me = this
 				var deleteme = confirm('Are you sure you want to delete this post?')
-				if(deleteme){
+				if(deleteme) {
 					me.$parent.$parent.isLoading = 1
 					db.collection('complaints').doc(id).delete().then(() => {
 						console.log('Deleted successfully')

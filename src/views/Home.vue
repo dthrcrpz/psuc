@@ -109,7 +109,7 @@
 	import moment from 'moment'
 	import { Base64 } from 'js-base64'
 	export default{
-		data(){
+		data() {
 			return{
 				// data to submit
 				way: 'none',
@@ -141,7 +141,7 @@
 			}
 		},
 		methods: {
-			clientLogin(){
+			clientLogin() {
 				let me = this
 				me.$parent.isLoading = true
 				db.collection('users')
@@ -149,7 +149,7 @@
 				.where('password', '==', me.login.password)
 				.where('approved', '==', true)
 				.get().then(res => {
-					if(!res.empty){ // if matched
+					if(!res.empty) { // if matched
 						let encoded = jwt.sign({
 							user_id: res.docs[0].id,
 							real_name: res.docs[0].data().fullname
@@ -171,11 +171,11 @@
 					me.$parent.isLoading = false
 				})
 			},
-			clientRegister(){
+			clientRegister() {
 				let me = this
 				// validation here
 				me.$validator.validate().then(res => {
-					if(!res){ // do not proceed
+					if(!res) { // do not proceed
 						die()
 					}else{
 						// check if data exists
@@ -183,7 +183,7 @@
 						db.collection('users')
 						.where('idnumber', '==', me.reg.idnumber)
 						.get().then(res => {
-							if(!res.empty){ // if exists
+							if(!res.empty) { // if exists
 								alert('Sorry. It seems like the ID Number you provided is already registered')
 							}else{ // if doesnt exits
 								db.collection('users').doc().set({
@@ -215,28 +215,28 @@
 				})
 				// end
 			},
-			submitComplaint(){
+			submitComplaint() {
 				let me = this
 				var errors = []
 				// validate
-				$.each($('.home').find('select'), function(){
-					if($(this).find(':selected').val() == 'none'){
+				$.each($('.home').find('select'), function() {
+					if($(this).find(':selected').val() == 'none') {
 						$(this).addClass('has-errors')
 						errors.push(1)
 					}
 				})
-				if(me.message == ''){
+				if(me.message == '') {
 					$('textarea[name="message"').addClass('has-errors')
 					errors.push(1)
 				}
 
-				if(me.alias == ''){
+				if(me.alias == '') {
 					$('input[name="alias"').addClass('has-errors')
 					errors.push(1)
 				}
 
 				// do not proceed if has errors
-				if(errors.length > 0){
+				if(errors.length > 0) {
 					alert('Please fill-out all required fields')
 					die()
 				}
@@ -267,7 +267,7 @@
 					me.reset()
 				})
 			},
-			reset(){
+			reset() {
 				let me = this
 				$('body select').removeClass('has-errors')
 				$('body textarea').removeClass('has-errors')
@@ -278,10 +278,10 @@
 				me.name = ''
 				me.alias = ''
 			},
-			setLoading(val){
+			setLoading(val) {
 				this.$parent.isLoading = val
 			},
-			adminLogout(){
+			adminLogout() {
                 let me = this
                 me.isLoading = true
                 Cookie.remove('admin-token')
@@ -289,18 +289,18 @@
                 me.$parent.isAdminLoggedIn = false
             }
 		},
-		mounted(){
+		mounted() {
 			let me = this
 		}
 	}
 
-	$('body').on('change', 'select', function(){
+	$('body').on('change', 'select', function() {
 		$(this).removeClass('has-errors')
 	})
-	$('body').on('change', 'input', function(){
+	$('body').on('change', 'input', function() {
 		$(this).removeClass('has-errors')
 	})
-	$('body').on('change', 'textarea', function(){
+	$('body').on('change', 'textarea', function() {
 		$(this).removeClass('has-errors')
 	})
 </script>
