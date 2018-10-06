@@ -13,10 +13,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="complaints-item" v-for="user in users">
+				<tr class="complaints-item" v-for="user in users" v-if="user.idnumber != 'superadmin'">
 					<td>
 						<label class="switch">
-							<input type="checkbox" :checked="user.approved">
+							<input type="checkbox" :checked="user.approved" @change.prevent="toggleApproved($event, user['.key'], user.approved)">
 							<span class="slider round"></span>
 						</label>
 					</td>
@@ -45,6 +45,22 @@
 			}
 		},
 		methods: {
+			toggleApproved(e, id, approved){
+				let me = this
+				let el = e.target
+
+				me.$parent.$parent.isLoading = 1
+				// check if I am currently shown to public
+				db.collection('users').doc(id).update({
+					approved: !approved
+				}).then(res => {
+					console.log(res)
+				}).catch(err => {
+					console.log('Error: '+err)
+				}).then(() => {
+					me.$parent.$parent.isLoading = 0
+				})
+			},
 			sort(target){
 				sortHTML('#complaints-table','.complaints-item', 'td:nth-child('+target+')')
 			},
