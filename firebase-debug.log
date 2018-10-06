@@ -1,0 +1,17 @@
+[debug] [2018-10-06T10:18:09.585Z] ----------------------------------------------------------------------
+[debug] [2018-10-06T10:18:09.588Z] Command:       /usr/bin/node /usr/bin/firebase deploy
+[debug] [2018-10-06T10:18:09.588Z] CLI Version:   5.0.1
+[debug] [2018-10-06T10:18:09.588Z] Platform:      linux
+[debug] [2018-10-06T10:18:09.588Z] Node Version:  v8.12.0
+[debug] [2018-10-06T10:18:09.589Z] Time:          Sat Oct 06 2018 18:18:09 GMT+0800 (+08)
+[debug] [2018-10-06T10:18:09.589Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-10-06T10:18:09.600Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-06T10:18:09.601Z] > authorizing via signed-in user
+[debug] [2018-10-06T10:18:09.601Z] [iam] checking project psuc-2d75e for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2018-10-06T10:18:09.603Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/psuc-2d75e:testIamPermissions  
+
+[debug] [2018-10-06T10:20:20.870Z] Error: connect ETIMEDOUT 172.217.161.170:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1191:14)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 172.217.161.170:443
