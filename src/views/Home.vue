@@ -145,7 +145,7 @@
 				let me = this
 				me.$parent.isLoading = true
 				db.collection('users')
-				.where('username', '==', me.login.username)
+				.where('idnumber', '==', me.login.username)
 				.where('password', '==', me.login.password)
 				.where('approved', '==', true)
 				.get().then(res => {
