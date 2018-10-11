@@ -31,8 +31,20 @@
 			<button class="delete" @click="confirmDelete(data['.key'])" v-if="data.user_id == $parent.$parent.decodedClientToken.user_id || $parent.$parent.isAdminLoggedIn"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 		</div>
 		<div class="post-comments">
-			<button class="add">Add Comment</button>
-			<button class="view">View Comments</button>
+			<button class="view" @click="showComments()"><b>Comments</b>
+				&nbsp;
+				<i class="fa fa-chevron-right" aria-hidden="true" v-if="hideComments"></i>
+				<i class="fa fa-chevron-down" aria-hidden="true" v-if="hideComments == false"></i>
+			</button>
+			<div :class="(hideComments) ? 'comments-wrapper closed' : 'comments-wrapper'">
+				<div class="comments-container">
+					<div class="add-comment-container">
+						<form>
+							<!-- inline form with Alias and Body -->
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -41,7 +53,16 @@
 	import db from '../services/firebase'
 	export default{
 		props: ['data'],
+		data() {
+			return {
+				hideComments: false
+			}
+		},
 		methods: {
+			showComments() {
+				let me = this
+				me.hideComments = !me.hideComments
+			},
 			confirmDelete(id) {
 				let me = this
 				var deleteme = confirm('Are you sure you want to delete this post?')

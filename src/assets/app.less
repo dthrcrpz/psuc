@@ -421,6 +421,7 @@ input {
 }
 .modal-container {
 	position: fixed;
+	z-index: 999;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -433,7 +434,7 @@ input {
 		display: table-cell;
 		text-align: center;
 		vertical-align: middle;
-		.modal {
+		.modal, .comment-modal {
 			max-width: 768px;
 			background: #fff;
 			width: 100%;
@@ -507,6 +508,18 @@ input {
 		border-radius: 3px;
 		color: @primary;
 	}
+}
+.comments-wrapper {
+	padding: 0;
+	max-height: 450px;
+	overflow: hidden;
+	transition: .3s ease all;
+	.comments-container {
+		padding: 10px;
+	}
+}
+.comments-wrapper.closed {
+	max-height: 0;
 }
 // wew
 
