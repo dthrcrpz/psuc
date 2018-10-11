@@ -369,10 +369,11 @@ body {
 	background: rgba(0,0,0,0.5);
 	min-height: 95vh;
 	padding: 40px 10px;
-	.container {
-		background: #fff;
-		padding: 30px 20px;
-	}
+}
+.post-template-wrapper {
+	background: #fff;
+	padding: 30px 20px;
+	margin-bottom: 20px;
 }
 .post-template {
 	display: grid;
@@ -487,6 +488,24 @@ input {
 			border: 1px solid @primary;
 			color: #fff;
 		}
+	}
+}
+.post-comments {
+	button {
+		padding: 5px 10px;
+	}
+	button.add {
+		margin-right: 10px;
+		background: @primary;
+		border: 1px solid @primary;
+		border-radius: 3px;
+		color: #fff;
+	}
+	button.view {
+		background: #fff;
+		border: 1px solid @primary;
+		border-radius: 3px;
+		color: @primary;
 	}
 }
 // wew
