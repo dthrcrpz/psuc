@@ -20,7 +20,7 @@
 		props: ['data'],
 		filters: {
 			fromNow(str) {
-				return moment().startOf(str, 'YYYY-MM-DD HH:mm:ss').fromNow()
+				return moment(str, 'YYYY-MM-DD HH:mm:ss').startOf(str, 'YYYY-MM-DD HH:mm:ss').fromNow()
 			}
 		}
 	}
