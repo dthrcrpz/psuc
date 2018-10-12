@@ -81,6 +81,13 @@
 		methods: {
 			addComment() {
 				let me = this
+
+				// validate fields
+				if(me.alias == '' || me.comment == '') {
+					alert('Please define your Alias and Comment')
+					return false
+				}
+
 				me.$parent.$parent.isLoading = 1
 				db.collection('complaints').doc(me.data['.key']).collection('comments').doc().set({
 					alias: me.alias,
