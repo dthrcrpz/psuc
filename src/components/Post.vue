@@ -54,7 +54,8 @@
 						</form>
 					</div>
 					<div class="actual-comments-container">
-						<comment></comment>
+
+						<comment v-for="comment in comments" :key="comment['.key']" :data="comment"></comment>
 					</div>
 				</div>
 			</div>
@@ -73,12 +74,29 @@
 		},
 		data() {
 			return {
-				hideComments: false,
+				hideComments: true,
 				alias: '',
-				comment: ''
+				comment: '',
+				comments: [],
+				hasShown: false
 			}
 		},
 		methods: {
+			showComments() {
+				let me = this
+
+				// fetch comments for this post
+				if(!me.hasShown) {
+					me.$parent.isLoading = 1
+					me.$binding('comments', db.collection('complaints').doc(me.data['.key']).collection('comments').orderBy('created_at', 'desc'))
+					.then(() => {
+						me.$parent.isLoading = 0
+					})
+					me.hasShown = true
+				}
+
+				me.hideComments = !me.hideComments
+			},
 			addComment() {
 				let me = this
 
@@ -103,10 +121,6 @@
 					alert('Sorry. Something went wrong')
 					console.log(err)
 				}).then(() => me.$parent.$parent.isLoading = 0)
-			},
-			showComments() {
-				let me = this
-				me.hideComments = !me.hideComments
 			},
 			confirmDelete(id) {
 				let me = this

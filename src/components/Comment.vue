@@ -2,19 +2,26 @@
 	<div class="comment-template">
 		<div>
 			<p class="user">
-				John Doe
+				{{ data.alias }}
 			</p>
 			<p class="date">
-				datehere
+				{{ data.created_at | fromNow }}
 			</p>
 			<p class="comment">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				{{ data.comment }}
 			</p>
 		</div>
 	</div>
 </template>
+
+<script>
+	import moment from 'moment'
+	export default {
+		props: ['data'],
+		filters: {
+			fromNow(str) {
+				return moment().startOf(str, 'YYYY-MM-DD HH:mm:ss').fromNow()
+			}
+		}
+	}
+</script>
