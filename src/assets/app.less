@@ -25,6 +25,9 @@ html {
 	padding: 0;
 	margin: 0;
 }
+* {
+	font-family: 'Lato', sans-serif;
+}
 button {
 	cursor: pointer;
 	.noselect;
@@ -494,6 +497,7 @@ input {
 .post-comments {
 	button {
 		padding: 5px 10px;
+		transition: .2s;
 	}
 	button.add {
 		margin-right: 10px;
@@ -510,16 +514,67 @@ input {
 	}
 }
 .comments-wrapper {
+	margin-top: 10px;
 	padding: 0;
 	max-height: 450px;
 	overflow: hidden;
 	transition: .3s ease all;
+	overflow: auto;
+	border: 1px solid #000;
 	.comments-container {
 		padding: 10px;
+		.add-comment-container {
+			h4 {
+				margin-bottom: 5px;
+			}
+			.form-group {
+				display: block;
+				max-width: 400px;
+				width: 100%;
+				margin-bottom: 5px;
+				input, textarea {
+					width: 100%;
+					padding: 5px;
+					resize: none;
+				}
+				button {
+					background: @primary;
+					border: 1px solid @primary;
+					padding: 5px 10px;
+					color: #fff;
+					border-radius: 3px;
+				}
+			}
+		}
 	}
 }
 .comments-wrapper.closed {
 	max-height: 0;
+	border: 1px solid #fff;
+}
+.actual-comments-container {
+	margin-top: 10px;
+	.comment-template {
+		padding: 7px 0;
+		border-top: 1px solid #eaeaea;
+		border-bottom: 1px solid #eaeaea;
+		margin: -1px 0;
+		.user {
+			font-weight: bold;
+			display: inline-table;
+			font-size: 15px;
+		}
+		.date {
+			display: inline-table;
+			margin-left: 5px;
+			font-size: 14px;
+			color: #9e9e9e;
+		}
+		.comment {
+			font-size: 16px;
+			color: #464646;
+		}
+	}
 }
 // wew
 

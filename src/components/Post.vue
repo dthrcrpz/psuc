@@ -39,9 +39,26 @@
 			<div :class="(hideComments) ? 'comments-wrapper closed' : 'comments-wrapper'">
 				<div class="comments-container">
 					<div class="add-comment-container">
-						<form>
+						<form @submit.prevent="addComment()">
 							<!-- inline form with Alias and Body -->
+							<h4>Add Comment</h4>
+							<div class="form-group">
+								<input type="text" name="alias" placeholder="Your Alias"> 
+							</div>
+							<div class="form-group">
+								<textarea rows="4" placeholder="Your Comment"></textarea>
+							</div>
+							<div class="form-group">
+								<button>Submit</button>
+							</div>
 						</form>
+					</div>
+					<div class="actual-comments-container">
+						<comment></comment>
+						<comment></comment>
+						<comment></comment>
+						<comment></comment>
+						<comment></comment>
 					</div>
 				</div>
 			</div>
@@ -51,8 +68,12 @@
 
 <script>
 	import db from '../services/firebase'
+	import Comment from './Comment'
 	export default{
 		props: ['data'],
+		components: {
+			Comment
+		},
 		data() {
 			return {
 				hideComments: false
