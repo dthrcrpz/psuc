@@ -7,7 +7,7 @@
 					<p class="value">{{ data.alias }}</p>
 				</div>
 				<div class="info-group">
-					<p class="label">Status:</p>
+					<p class="label">Occupation:</p>
 					<p class="value">{{ data.way }}</p>
 				</div>
 				<div class="info-group">
@@ -54,7 +54,6 @@
 						</form>
 					</div>
 					<div class="actual-comments-container">
-
 						<comment v-for="comment in comments" :key="comment['.key']" :data="comment"></comment>
 					</div>
 				</div>
@@ -78,7 +77,7 @@
 				alias: '',
 				comment: '',
 				comments: [],
-				hasShown: false
+				hasShown: false,
 			}
 		},
 		methods: {

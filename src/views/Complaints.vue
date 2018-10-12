@@ -1,6 +1,11 @@
 <template>
 	<div class="complaints">
 		<div class="container">
+			<div class="filter">
+				<select>
+					<option>Sort by</option>
+				</select>
+			</div>
 			<post v-for="c in complaints" :key="c.id" :data="c" v-if="c.showToPublic"></post>
 		</div>
 	</div>
