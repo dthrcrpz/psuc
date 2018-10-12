@@ -43,10 +43,10 @@
 							<!-- inline form with Alias and Body -->
 							<h4>Add Comment</h4>
 							<div class="form-group">
-								<input type="text" name="alias" placeholder="Your Alias"> 
+								<input type="text" name="alias" placeholder="Your Alias" v-model="alias">
 							</div>
 							<div class="form-group">
-								<textarea rows="4" placeholder="Your Comment"></textarea>
+								<textarea rows="4" placeholder="Your Comment" v-model="comment"></textarea>
 							</div>
 							<div class="form-group">
 								<button>Submit</button>
@@ -54,10 +54,6 @@
 						</form>
 					</div>
 					<div class="actual-comments-container">
-						<comment></comment>
-						<comment></comment>
-						<comment></comment>
-						<comment></comment>
 						<comment></comment>
 					</div>
 				</div>
@@ -69,17 +65,38 @@
 <script>
 	import db from '../services/firebase'
 	import Comment from './Comment'
-	export default{
+	import moment from 'moment'
+	export default {
 		props: ['data'],
 		components: {
 			Comment
 		},
 		data() {
 			return {
-				hideComments: false
+				hideComments: false,
+				alias: '',
+				comment: ''
 			}
 		},
 		methods: {
+			addComment() {
+				let me = this
+				me.$parent.$parent.isLoading = 1
+				db.collection('complaints').doc(me.data['.key']).collection('comments').doc().set({
+					alias: me.alias,
+					comment: me.comment,
+					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+
+					// clear fields
+				}).then(res => {
+					me.alias = ''
+					me.comment = ''
+				}).catch(err => {
+					alert('Sorry. Something went wrong')
+					console.log(err)
+				}).then(() => me.$parent.$parent.isLoading = 0)
+			},
 			showComments() {
 				let me = this
 				me.hideComments = !me.hideComments
