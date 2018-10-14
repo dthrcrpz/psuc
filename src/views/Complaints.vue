@@ -7,17 +7,31 @@
 					<h3>Filter</h3>
 					<select v-model="sort.way">
 						<option disabled selected value="0">Occupation</option>
+						<option value="0">All</option>
+						<option>Student</option>
+						<option>Staff</option>
+						<option>Faculty</option>
+						<option>Graduate</option>
 					</select>
 
 					<select v-model="sort.target">
-						<option disabled selected value="0">Subject</option>
+						<option disabled selected value="0">About</option>
+						<option value="0">All</option>
+						<option>Facilities</option>
+						<option>Instructor</option>
+						<option>System</option>
+						<option>Portal</option>
 					</select>
 
 					<select v-model="sort.about">
-						<option disabled selected value="0">About</option>
+						<option disabled selected value="0">Subject</option>
+						<option value="0">All</option>
+						<option>Complaint</option>
+						<option>Compliment</option>
+						<option>Suggestion</option>
 					</select>
 
-					<button>Go</button>
+					<button type="submit">Go</button>
 				</div>
 			</form>
 
@@ -47,7 +61,51 @@
 		},
 		methods: {
 			startSort() {
-				alert(1)
+				let me = this
+				me.$parent.isLoading = 1
+
+				me.complaints = []
+
+				let w = (me.sort.way == 0) ? '0' : '1'
+				let t = (me.sort.target == 0) ? '0' : '1'
+				let a = (me.sort.about == 0) ? '0' : '1'
+
+				let combination = '' + w + t + a
+
+				switch(combination) {
+					case '000':
+						me.$binding('complaints', db.collection('complaints').orderBy('created_at', 'desc'))
+						.then(() => me.$parent.isLoading = 0).catch(err => me.complaints = []).then(() => me.$parent.isLoading = 0)
+						break
+					case '100':
+						me.$binding('complaints', db.collection('complaints').where('way', '==', me.sort.way).orderBy('created_at', 'desc'))
+						.then(() => me.$parent.isLoading = 0).catch(err => me.complaints = []).then(() => me.$parent.isLoading = 0)
+						break
+					case '110':
+						me.$binding('complaints', db.collection('complaints').where('way', '==', me.sort.way).where('target', '==', me.sort.target).orderBy('created_at', 'desc'))
+						.then(() => me.$parent.isLoading = 0).catch(err => me.complaints = []).then(() => me.$parent.isLoading = 0)
+						break
+					case '111':
+						me.$binding('complaints', db.collection('complaints').where('way', '==', me.sort.way).where('target', '==', me.sort.target).where('about', '==', me.sort.about).orderBy('created_at', 'desc'))
+						.then(() => me.$parent.isLoading = 0).catch(err => me.complaints = []).then(() => me.$parent.isLoading = 0)
+						break
+					case '011':
+						me.$binding('complaints', db.collection('complaints').where('target', '==', me.sort.target).where('about', '==', me.sort.about).orderBy('created_at', 'desc'))
+						.then(() => me.$parent.isLoading = 0).catch(err => me.complaints = []).then(() => me.$parent.isLoading = 0)
+						break
+					case '001':
+						me.$binding('complaints', db.collection('complaints').where('about', '==', me.sort.about).orderBy('created_at', 'desc'))
+						.then(() => me.$parent.isLoading = 0).catch(err => me.complaints = []).then(() => me.$parent.isLoading = 0)
+						break
+					case '010':
+						me.$binding('complaints', db.collection('complaints').where('target', '==', me.sort.target).orderBy('created_at', 'desc'))
+						.then(() => me.$parent.isLoading = 0).catch(err => me.complaints = []).then(() => me.$parent.isLoading = 0)
+						break
+					case '111':
+						me.$binding('complaints', db.collection('complaints').where('way', '==', me.sort.way).where('about', '==', me.sort.about).orderBy('created_at', 'desc'))
+						.then(() => me.$parent.isLoading = 0).catch(err => me.complaints = []).then(() => me.$parent.isLoading = 0)
+						break
+				}
 			}
 		},
 		mounted() {
