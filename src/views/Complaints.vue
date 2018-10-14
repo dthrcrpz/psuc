@@ -2,8 +2,17 @@
 	<div class="complaints">
 		<div class="container">
 			<div class="filter">
-				<select>
-					<option>Sort by</option>
+				<h3>Filter</h3>
+				<select v-model="way">
+					<option disabled selected value="0">Occupation</option>
+				</select>
+
+				<select v-model="target">
+					<option disabled selected value="0">Subject</option>
+				</select>
+
+				<select v-model="about">
+					<option disabled selected value="0">About</option>
 				</select>
 			</div>
 			<post v-for="c in complaints" :key="c.id" :data="c" v-if="c.showToPublic"></post>
