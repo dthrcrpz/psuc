@@ -1,20 +1,26 @@
 <template>
 	<div class="complaints">
 		<div class="container">
-			<div class="filter">
-				<h3>Filter</h3>
-				<select v-model="way">
-					<option disabled selected value="0">Occupation</option>
-				</select>
 
-				<select v-model="target">
-					<option disabled selected value="0">Subject</option>
-				</select>
+			<form @submit.prevent="startSort()">
+				<div class="filter">
+					<h3>Filter</h3>
+					<select v-model="sort.way">
+						<option disabled selected value="0">Occupation</option>
+					</select>
 
-				<select v-model="about">
-					<option disabled selected value="0">About</option>
-				</select>
-			</div>
+					<select v-model="sort.target">
+						<option disabled selected value="0">Subject</option>
+					</select>
+
+					<select v-model="sort.about">
+						<option disabled selected value="0">About</option>
+					</select>
+
+					<button>Go</button>
+				</div>
+			</form>
+
 			<post v-for="c in complaints" :key="c.id" :data="c" v-if="c.showToPublic"></post>
 		</div>
 	</div>
@@ -31,7 +37,17 @@
 		},
 		data() {
 			return{
-				complaints: []
+				complaints: [],
+				sort: {
+					way: 0,
+					target: 0,
+					about: 0,
+				}
+			}
+		},
+		methods: {
+			startSort() {
+				alert(1)
 			}
 		},
 		mounted() {
