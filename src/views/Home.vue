@@ -297,6 +297,7 @@
 		},
 		mounted() {
 			let me = this
+			me.$parent.onAdminPanel = false
 		}
 	}
 

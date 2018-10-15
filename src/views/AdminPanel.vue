@@ -111,6 +111,7 @@
 		},
 		mounted() {
 			let me = this
+			me.$parent.onAdminPanel = true
 			var x = me.$route.params.target
 			if(x == undefined && me.$parent.isAdminLoggedIn) {
 				me.$router.push('/admin-panel/complaints')

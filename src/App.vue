@@ -7,7 +7,8 @@
     				<h1>PSU</h1>
     			</router-link>
                 <div class="right-nav">
-                    <router-link :to="{name: 'index'}" class="normal home-link">Home </router-link>
+                    <router-link to="/" class="normal home-link" v-if="onAdminPanel == false">Home </router-link>
+                    <router-link to="/admin-panel" class="normal home-link" v-if="onAdminPanel">Home </router-link>
                     <router-link to="/complaints" class="normal" v-if="isClientLoggedIn || isAdminLoggedIn">View Complaints</router-link>
                     <button class="logout" @click="logout()" v-if="isAdminLoggedIn"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
                     <button class="logout" @click="clientLogout()" v-if="isClientLoggedIn"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
@@ -31,7 +32,8 @@
                 isAdminLoggedIn: false,
                 isClientLoggedIn: false,
                 decodedClientToken: '',
-                decodedAdminToken: ''
+                decodedAdminToken: '',
+                onAdminPanel: true
             }
         },
         methods: {

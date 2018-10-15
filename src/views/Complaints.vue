@@ -110,6 +110,7 @@
 		},
 		mounted() {
 			let me = this
+			me.$parent.onAdminPanel = false
 			me.$parent.isLoading = 1
 			me.$binding('complaints', db.collection('complaints').orderBy('created_at', 'desc'))
 			.then(() => {
