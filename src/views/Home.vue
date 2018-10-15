@@ -33,6 +33,8 @@
 						<option>Instructor</option>
 						<option>System</option>
 						<option>Portal</option>
+						<option>Staff</option>
+						<option>Event</option>
 					</select>
 				</div>
 				<div class="form-group">
@@ -150,9 +152,13 @@
 				.where('approved', '==', true)
 				.get().then(res => {
 					if(!res.empty) { // if matched
+
+						me.$parent.isAdminLoggedIn = false
+						Cookie.remove('admin-token')
+
 						let encoded = jwt.sign({
-							user_id: res.docs[0].id,
-							real_name: res.docs[0].data().fullname
+							user_id: (me.$parent.isAdminLoggedIn) ? 'superadmin' : res.docs[0].id,
+							real_name: (me.$parent.isAdminLoggedIn) ? 'superadmin' : res.docs[0].data().fullname
 						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
 						Cookie.set('client-token', encoded)
 						me.$parent.isClientLoggedIn = true

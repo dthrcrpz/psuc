@@ -30,7 +30,8 @@
                 isLoading: false,
                 isAdminLoggedIn: false,
                 isClientLoggedIn: false,
-                decodedClientToken: ''
+                decodedClientToken: '',
+                decodedAdminToken: ''
             }
         },
         methods: {
@@ -66,6 +67,7 @@
                 jwt.verify(Cookie.get('admin-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
                     if(!err) {
                         me.isAdminLoggedIn = true
+                        me.decodedAdminToken = decoded
                     }else{
                         me.isAdminLoggedIn = false
                     }

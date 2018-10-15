@@ -79,11 +79,17 @@
 				.where('role', '==', 1)
 				.get().then(res => {
 					if(!res.empty) { // if matched
+
+						me.$parent.isClientLoggedIn = false
+						Cookie.remove('client-token')
+
 						let encoded = jwt.sign({
-							user_id: res.docs[0].id
+							user_id: res.docs[0].id,
+							real_name: res.docs[0].data().fullname
 						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
 						Cookie.set('admin-token', encoded)
 						me.$parent.isAdminLoggedIn = true
+						me.$router.push('/admin-panel/complaints')
 					}else{
 						alert('Invalid credentials. Please try again.')
 						Cookie.remove('admin-token')
@@ -105,6 +111,10 @@
 		},
 		mounted() {
 			let me = this
+			var x = me.$route.params.target
+			if(x == undefined && me.$parent.isAdminLoggedIn) {
+				me.$router.push('/admin-panel/complaints')
+			}
 			me.clientLogout()
 		}
 	}
