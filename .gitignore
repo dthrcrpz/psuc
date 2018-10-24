@@ -20,4 +20,4 @@ yarn-error.log*
 *.sln
 *.sw*
 
-src/services/api.js
+.firebase
