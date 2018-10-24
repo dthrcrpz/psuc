@@ -1,11 +1,11 @@
 <template>
     <div>
-    	<nav>
-    		<div class="container">
-    			<router-link to="/" class="logo">
-    				<img src="/logo.png">
-    				<h1>PSU</h1>
-    			</router-link>
+        <nav>
+            <div class="container">
+                <router-link to="/" class="logo">
+                    <img src="/logo.png">
+                    <h1>PSU</h1>
+                </router-link>
                 <div class="right-nav">
                     <router-link to="/" class="normal home-link" v-if="onAdminPanel == false">Home </router-link>
                     <router-link to="/admin-panel" class="normal home-link" v-if="onAdminPanel">Home </router-link>
