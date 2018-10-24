@@ -36,7 +36,6 @@
 				<i class="fa fa-chevron-right" aria-hidden="true" v-if="hideComments"></i>
 				<i class="fa fa-chevron-down" aria-hidden="true" v-if="hideComments == false"></i>
 			</button>
-			{{ $parent.$parent.decodedClientToken }}
 			<div :class="(hideComments) ? 'comments-wrapper closed' : 'comments-wrapper'">
 				<div class="comments-container">
 					<div class="add-comment-container">
@@ -55,7 +54,7 @@
 						</form>
 					</div>
 					<div class="actual-comments-container">
-						<comment v-for="comment in comments" :key="comment['.key']" :data="comment"></comment>
+						<comment v-for="comment in comments" :key="comment['.key']" :data="comment" :postid="data['.key']"></comment>
 					</div>
 				</div>
 			</div>

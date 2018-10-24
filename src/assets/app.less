@@ -2,6 +2,7 @@
 @primary: #1e7ea7;
 @cBlack: #505F79;
 @yellow: #fddd44;
+@red: #e83939;
 
 // fonts
 
@@ -78,6 +79,7 @@ nav {
 	box-shadow: 0 0 11px #000;
 	position: fixed;
 	top: 0;
+	z-index: 999;
 	.container {
 		padding: 10px 20px;
 		position: relative;
@@ -613,7 +615,10 @@ input {
 			padding: 1px 15px;
 			font-size: 12px;
 			margin-left: 5px;
-			border: 1px solid red;
+			border: 1px solid @red;
+			background: @red;
+			color: #fff;
+			border-radius: 3px;
 		}
 	}
 }
