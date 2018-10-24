@@ -3,7 +3,7 @@
 		<div class="container" v-if="$parent.isClientLoggedIn || $parent.isAdminLoggedIn">
 			<form @submit.prevent="submitComplaint()">
 				<div class="form-group">
-					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)*</label>
+					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)</label>
 					<input type="text" v-model="alias" name="alias" placeholder="anon623">
 				</div>
 				<div class="form-group">
@@ -236,10 +236,10 @@
 					errors.push(1)
 				}
 
-				if(me.alias == '') {
-					$('input[name="alias"').addClass('has-errors')
-					errors.push(1)
-				}
+				// if(me.alias == '') {
+				// 	$('input[name="alias"').addClass('has-errors')
+				// 	errors.push(1)
+				// }
 
 				// do not proceed if has errors
 				if(errors.length > 0) {

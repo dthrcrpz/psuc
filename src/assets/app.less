@@ -76,6 +76,8 @@ nav {
 	background: @primary;
 	color: #fff;
 	box-shadow: 0 0 11px #000;
+	position: fixed;
+	top: 0;
 	.container {
 		padding: 10px 20px;
 		position: relative;
@@ -221,6 +223,7 @@ body {
 	background-position: center;
 	background-size: 100px;
 	cursor: progress;
+	z-index: 9999;
 }
 .fade-enter-active, .fade-leave-active  {
   transition: opacity .5s;
@@ -608,6 +611,35 @@ input {
 		}
 	}
 }
+.mobile-right-nav {
+	position: absolute;
+    right: 20px;
+    top: 0;
+    bottom: 0;
+    display: none;
+    margin: auto;
+  	font-size: 30px;
+}
+.mobile-overlay-nav {
+	position: fixed;
+	z-index: 999;
+	top: 70px;
+	right: -320px;
+	background: @primary;
+	width: 320px;
+	height: 100vh;
+	transition: .5s;
+	a {
+		display: block;
+		padding: 10px 20px;
+	}
+	.logout-container {
+		border-top: 1px solid #000;
+	}
+}
+.mobile-overlay-nav.active {
+	right: 0;
+}
 // wew
 
 @media(max-width: 768px) {
@@ -617,13 +649,16 @@ input {
 	.admin-panel .container.admin-container .main-wrapper{
 		margin-top: 10px;
 	}
+	nav .container .right-nav {
+		display: none;
+	}
+	.mobile-right-nav {
+		display: table;
+	}
 }
 @media(max-width: 460px) {
 	.complaints .container .filter select {
 		margin: 5px;
-	}
-	nav .container .logo h1 {
-		display: none;
 	}
 }
 @media(max-width: 360px) {
