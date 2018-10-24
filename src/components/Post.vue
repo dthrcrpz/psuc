@@ -36,6 +36,7 @@
 				<i class="fa fa-chevron-right" aria-hidden="true" v-if="hideComments"></i>
 				<i class="fa fa-chevron-down" aria-hidden="true" v-if="hideComments == false"></i>
 			</button>
+			{{ $parent.$parent.decodedClientToken }}
 			<div :class="(hideComments) ? 'comments-wrapper closed' : 'comments-wrapper'">
 				<div class="comments-container">
 					<div class="add-comment-container">
@@ -100,15 +101,16 @@
 				let me = this
 
 				// validate fields
-				if(me.alias == '' || me.comment == '') {
-					alert('Please define your Alias and Comment')
+				if(me.comment == '') {
+					alert('Please type a Comment')
 					return false
 				}
 
 				me.$parent.$parent.isLoading = 1
 				db.collection('complaints').doc(me.data['.key']).collection('comments').doc().set({
-					alias: me.alias,
+					alias: (me.alias == '') ? 'Anonymous' : me.alias,
 					comment: me.comment,
+					user_id: me.$parent.$parent.decodedClientToken.user_id,
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 
