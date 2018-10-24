@@ -7,6 +7,7 @@
 			<p class="date">
 				{{ data.created_at | fromNow }}
 			</p>
+			<button class="delete">Delete</button>
 			<p class="comment">
 				{{ data.comment }}
 			</p>
