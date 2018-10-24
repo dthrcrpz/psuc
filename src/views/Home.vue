@@ -253,7 +253,7 @@
 				let userID = me.$parent.decodedClientToken.user_id
 				let realName = me.$parent.decodedClientToken.real_name
 				db.collection('complaints').doc().set({
-					alias: me.alias,
+					alias: (me.alias == '') ? 'Anonymous' : me.alias,
 					way: me.way,
 					about: me.about,
 					target: me.target,
