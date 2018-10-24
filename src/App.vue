@@ -1,11 +1,11 @@
 <template>
     <div>
-    	<nav>
-    		<div class="container">
-    			<router-link to="/" class="logo">
-    				<img src="/logo.png">
-    				<h1>PSU</h1>
-    			</router-link>
+        <nav>
+            <div class="container">
+                <router-link to="/" class="logo">
+                    <img src="/logo.png">
+                    <h1>PSU</h1>
+                </router-link>
                 <div class="right-nav">
                     <router-link to="/" class="normal home-link" v-if="onAdminPanel == false">Home </router-link>
                     <router-link to="/admin-panel" class="normal home-link" v-if="onAdminPanel">Home </router-link>
@@ -13,9 +13,9 @@
                     <button class="logout" @click="logout()" v-if="isAdminLoggedIn"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
                     <button class="logout" @click="clientLogout()" v-if="isClientLoggedIn"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
                 </div>
-    		</div>
-    	</nav>
-    	<router-view/>
+            </div>
+        </nav>
+        <router-view/>
         <transition name="fade">
             <div class="loading-container" v-if="isLoading"></div>
         </transition>
