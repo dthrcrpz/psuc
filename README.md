@@ -4,3 +4,6 @@
 4) run "npm install"
 5) run "npm run serve"
 6) Done
+
+TODO:
+4) Logs

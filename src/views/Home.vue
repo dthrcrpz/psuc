@@ -3,7 +3,7 @@
 		<div class="container" v-if="$parent.isClientLoggedIn || $parent.isAdminLoggedIn">
 			<form @submit.prevent="submitComplaint()">
 				<div class="form-group">
-					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)*</label>
+					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)</label>
 					<input type="text" v-model="alias" name="alias" placeholder="anon623">
 				</div>
 				<div class="form-group">
@@ -41,6 +41,9 @@
 					<label>Your Complaint *</label>
 					<textarea rows="6" placeholder="Type your concern" v-model="message" name="message"></textarea>
 				</div>
+				<div class="captcha-container">
+                    <vue-recaptcha class="g-recaptcha" sitekey="6Lc2nnYUAAAAAHlEIu1w9cM0iNPbwv2cj0dQS8rm"></vue-recaptcha>
+                </div>
 				<div class="buttons-container">
 					<button type="submit">Submit</button>
 					<button class="reset" type="button" @click="reset()">Reset Form</button>
@@ -110,7 +113,12 @@
 	import Cookie from 'js-cookie'
 	import moment from 'moment'
 	import { Base64 } from 'js-base64'
+	import VueRecaptcha from 'vue-recaptcha'
+
 	export default{
+		components: {
+			VueRecaptcha
+		},
 		data() {
 			return{
 				// data to submit
@@ -223,6 +231,12 @@
 			},
 			submitComplaint() {
 				let me = this
+
+                if(grecaptcha.getResponse().length < 1){
+                    alert('Please verify that you are a human.')
+                    die()
+                }
+
 				var errors = []
 				// validate
 				$.each($('.home').find('select'), function() {
@@ -236,10 +250,10 @@
 					errors.push(1)
 				}
 
-				if(me.alias == '') {
-					$('input[name="alias"').addClass('has-errors')
-					errors.push(1)
-				}
+				// if(me.alias == '') {
+				// 	$('input[name="alias"').addClass('has-errors')
+				// 	errors.push(1)
+				// }
 
 				// do not proceed if has errors
 				if(errors.length > 0) {
@@ -253,7 +267,7 @@
 				let userID = me.$parent.decodedClientToken.user_id
 				let realName = me.$parent.decodedClientToken.real_name
 				db.collection('complaints').doc().set({
-					alias: me.alias,
+					alias: (me.alias == '') ? 'Anonymous' : me.alias,
 					way: me.way,
 					about: me.about,
 					target: me.target,
