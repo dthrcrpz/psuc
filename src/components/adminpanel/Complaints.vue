@@ -16,7 +16,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="complaints-item" v-for="c in complaints">
+				<tr class="complaints-item" v-for="c in complaints" v-if="c.target == $parent.$parent.decodedAdminToken.adminFor || $parent.$parent.decodedAdminToken.adminFor == 'All'">
 					<td>
 						<label class="switch">
 							<input type="checkbox" :checked="c.showToPublic" @change.prevent="toggleShowToPublic($event,c['.key'], c.showToPublic)">

@@ -85,10 +85,20 @@
 
 						let encoded = jwt.sign({
 							user_id: res.docs[0].id,
-							real_name: res.docs[0].data().fullname
+							real_name: res.docs[0].data().fullname,
+							adminFor: res.docs[0].data().adminFor
 						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
 						Cookie.set('admin-token', encoded)
-						me.$parent.isAdminLoggedIn = true
+
+						jwt.verify(Cookie.get('admin-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
+		                    if(!err) {
+		                        me.$parent.isAdminLoggedIn = true
+		                        me.$parent.decodedAdminToken = decoded
+		                    }else{
+		                        me.$parent.isAdminLoggedIn = false
+		                    }
+		                })
+
 						me.$router.push('/admin-panel/complaints')
 					}else{
 						alert('Invalid credentials. Please try again.')
