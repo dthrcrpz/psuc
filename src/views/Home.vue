@@ -1,6 +1,6 @@
 <template>
 	<div class="home admin-panel">
-		<div class="container" v-if="$parent.isClientLoggedIn || $parent.isAdminLoggedIn">
+		<div class="container" v-if="$store.state.isClientLoggedIn || $store.state.isAdminLoggedIn">
 			<form @submit.prevent="submitComplaint()">
 				<div class="form-group">
 					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)</label>
@@ -50,8 +50,8 @@
 				</div>
 			</form>
 		</div>
-		<div v-if="$parent.isAdminLoggedIn == false">
-			<div class="container login-container" v-if="$parent.isClientLoggedIn == false && authState == 1">
+		<div v-if="$store.state.isAdminLoggedIn == false">
+			<div class="container login-container" v-if="$store.state.isClientLoggedIn == false && authState == 1">
 				<img src="/logo.png" class="logo">
 				<p class="h3">User Login</p>
 				<form @submit.prevent="clientLogin()">
@@ -69,7 +69,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="container login-container" v-if="$parent.isClientLoggedIn == false && authState == 2">
+			<div class="container login-container" v-if="$store.state.isClientLoggedIn == false && authState == 2">
 				<img src="/logo.png" class="logo">
 				<p class="h3">Register</p>
 				<form @submit.prevent="clientRegister()">
@@ -153,7 +153,7 @@
 		methods: {
 			clientLogin() {
 				let me = this
-				me.$parent.isLoading = true
+				me.$store.state.isLoading = true
 				db.collection('users')
 				.where('idnumber', '==', me.login.username)
 				.where('password', '==', me.login.password)
@@ -161,28 +161,28 @@
 				.get().then(res => {
 					if(!res.empty) { // if matched
 
-						me.$parent.isAdminLoggedIn = false
+						me.$store.state.isAdminLoggedIn = false
 						Cookie.remove('admin-token')
 
 						let encoded = jwt.sign({
-							user_id: (me.$parent.isAdminLoggedIn) ? 'superadmin' : res.docs[0].id,
-							real_name: (me.$parent.isAdminLoggedIn) ? 'superadmin' : res.docs[0].data().fullname
+							user_id: (me.$store.state.isAdminLoggedIn) ? 'superadmin' : res.docs[0].id,
+							real_name: (me.$store.state.isAdminLoggedIn) ? 'superadmin' : res.docs[0].data().fullname
 						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
 						Cookie.set('client-token', encoded)
-						me.$parent.isClientLoggedIn = true
+						me.$store.state.isClientLoggedIn = true
 
 						jwt.verify(Cookie.get('client-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
-		                    me.$parent.decodedClientToken = decoded
+		                    me.$store.state.decodedClientToken = decoded
 			            })
 					}else{
 						alert('Invalid credentials or your account has not been approved by the administrator. Please try again.')
 						Cookie.remove('client-token')
-						me.$parent.isClientLoggedIn = false
+						me.$store.state.isClientLoggedIn = false
 					}
 				}).catch(err => {
 					console.log('Error: '+err)
 				}).then(() => {
-					me.$parent.isLoading = false
+					me.$store.state.isLoading = false
 				})
 			},
 			clientRegister() {
@@ -193,7 +193,7 @@
 						die()
 					}else{
 						// check if data exists
-						me.$parent.isLoading = true
+						me.$store.state.isLoading = true
 						db.collection('users')
 						.where('idnumber', '==', me.reg.idnumber)
 						.get().then(res => {
@@ -222,7 +222,7 @@
 							}
 						}).catch(err => { console.log('Error: '+error) })
 						.then(() => {
-							me.$parent.isLoading = false
+							me.$store.state.isLoading = false
 						})
 
 					}
@@ -269,8 +269,8 @@
 				me.setLoading(true)
 
 				// saving here
-				let userID = me.$parent.decodedClientToken.user_id
-				let realName = me.$parent.decodedClientToken.real_name
+				let userID = me.$store.state.decodedClientToken.user_id
+				let realName = me.$store.state.decodedClientToken.real_name
 				db.collection('complaints').doc().set({
 					alias: (me.alias == '') ? 'Anonymous' : me.alias,
 					way: me.way,
@@ -304,14 +304,14 @@
 				me.alias = ''
 			},
 			setLoading(val) {
-				this.$parent.isLoading = val
+				this.$store.state.isLoading = val
 			},
 			adminLogout() {
                 let me = this
                 me.isLoading = true
                 Cookie.remove('admin-token')
-                me.$parent.isLoading = false
-                me.$parent.isAdminLoggedIn = false
+                me.$store.state.isLoading = false
+                me.$store.state.isAdminLoggedIn = false
             }
 		},
 		mounted() {

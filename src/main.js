@@ -2,6 +2,7 @@ require('dotenv').config()
 
 import Vue from 'vue'
 import App from './App.vue'
+import store from './store'
 import DatatableFactory from 'vuejs-datatable'
 import VueFirestore from 'vue-firestore'
 import VeeValidate from 'vee-validate'
@@ -20,5 +21,6 @@ Vue.use(VeeValidate)
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
