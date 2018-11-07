@@ -99,6 +99,16 @@
 			addComment() {
 				let me = this
 
+				// check if alias contains the admin word
+				let aliasSTR = me.alias
+				let aliasCheck = aliasSTR.search('admin')
+				if(me.alias != '') {
+					if(aliasCheck >= 0) {
+						alert('Invalid Alias')
+						die()
+					}
+				}
+
 				// validate fields
 				if(me.comment == '') {
 					alert('Please type a Comment')
@@ -107,9 +117,9 @@
 
 				me.$store.state.isLoading = true
 				db.collection('complaints').doc(me.data['.key']).collection('comments').doc().set({
-					alias: (me.alias == '') ? 'Anonymous' : me.alias,
+					alias: (me.$store.state.isAdminLoggedIn) ? me.$store.state.decodedAdminToken.real_name : (me.alias == '') ? 'Anonymous' : me.alias,
 					comment: me.comment,
-					user_id: me.$store.state.decodedClientToken.user_id,
+					user_id: (me.$store.state.isAdminLoggedIn) ? me.$store.state.decodedAdminToken.user_id : me.$store.state.decodedClientToken.user_id,
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 

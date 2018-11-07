@@ -86,7 +86,7 @@
                 jwt.verify(Cookie.get('admin-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
                     if(!err) {
                         me.$store.state.isAdminLoggedIn = true
-                        me.decodedAdminToken = decoded
+                        me.$store.state.decodedAdminToken = decoded
                     }else{
                         me.$store.state.isAdminLoggedIn = false
                     }
