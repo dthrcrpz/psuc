@@ -51,8 +51,12 @@
 		},
 		filters: {
 			str_limit(str) {
-				let x = str.substr(0, 10) + ' ...'
-				return x
+				if(str.length >= 10) {
+					let x = str.substr(0, 10) + ' ...'
+					return x
+				} else {
+					return str
+				}
 			},
 		},
 		methods: {
