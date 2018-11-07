@@ -206,7 +206,7 @@
 									email: me.reg.email,
 									password: me.reg.password,
 									role: 0,
-									approved: false,
+									approved: true,
 									created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 									updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 								}).then(() => {
@@ -273,7 +273,7 @@
 					target: me.target,
 					message: me.message,
 					user_id: userID,
-					showToPublic: false,
+					showToPublic: true,
 					real_name: realName,
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
