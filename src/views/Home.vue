@@ -232,6 +232,16 @@
 			submitComplaint() {
 				let me = this
 
+				// check if alias contains the admin word
+				let aliasSTR = me.alias
+				let aliasCheck = aliasSTR.search('admin')
+				if(me.alias != '') {
+					if(aliasCheck >= 0) {
+						alert('Invalid Alias')
+						die()
+					}
+				}
+
                 if(grecaptcha.getResponse().length < 1){
                     alert('Please verify that you are a human.')
                     die()
@@ -249,11 +259,6 @@
 					$('textarea[name="message"').addClass('has-errors')
 					errors.push(1)
 				}
-
-				// if(me.alias == '') {
-				// 	$('input[name="alias"').addClass('has-errors')
-				// 	errors.push(1)
-				// }
 
 				// do not proceed if has errors
 				if(errors.length > 0) {
