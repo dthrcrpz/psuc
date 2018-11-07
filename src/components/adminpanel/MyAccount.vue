@@ -2,7 +2,7 @@
 	<div class="my-account">
 		<h2>Account Settings</h2>
 		<h3 class="success" v-if="success">Success<br></h3>
-		<form @submit.prevent="submit()">
+		<form @submit.prevent="submit()" v-if="!success">
 			<div class="form-group">
 				<label>Enter Old Password</label>
 				<input type="password" name="old_password" v-model="old_password" v-validate="'required'">
@@ -50,13 +50,14 @@
 						.get()
 						.then(res => {
 							if(!res.empty) { // pag may match
-								db.collection('users').doc('rLf1e6jichSzsL8vEMKn').update({
+								db.collection('users').doc(me.$store.state.decodedAdminToken.user_id).update({
 									password: me.new_password
 								}).then(res => {
 									console.log(res)
 									me.success = true
 								}).catch(err => {
 									console.log(err)
+									me.success = false
 								}).then(() => {
 									me.$store.state.isLoading = false
 								})
