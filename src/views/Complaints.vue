@@ -62,7 +62,7 @@
 		methods: {
 			startSort() {
 				let me = this
-				me.$store.state.isLoading = 1
+				me.$store.state.isLoading = true
 
 				me.complaints = []
 
@@ -75,35 +75,35 @@
 				switch(combination) {
 					case '000':
 						me.$binding('complaints', db.collection('complaints').orderBy('created_at', 'desc'))
-						.then(() => me.$store.state.isLoading = 0).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = 0)
+						.then(() => me.$store.state.isLoading = false).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = false)
 						break
 					case '100':
 						me.$binding('complaints', db.collection('complaints').where('way', '==', me.sort.way).orderBy('created_at', 'desc'))
-						.then(() => me.$store.state.isLoading = 0).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = 0)
+						.then(() => me.$store.state.isLoading = false).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = false)
 						break
 					case '110':
 						me.$binding('complaints', db.collection('complaints').where('way', '==', me.sort.way).where('target', '==', me.sort.target).orderBy('created_at', 'desc'))
-						.then(() => me.$store.state.isLoading = 0).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = 0)
+						.then(() => me.$store.state.isLoading = false).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = false)
 						break
 					case '111':
 						me.$binding('complaints', db.collection('complaints').where('way', '==', me.sort.way).where('target', '==', me.sort.target).where('about', '==', me.sort.about).orderBy('created_at', 'desc'))
-						.then(() => me.$store.state.isLoading = 0).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = 0)
+						.then(() => me.$store.state.isLoading = false).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = false)
 						break
 					case '011':
 						me.$binding('complaints', db.collection('complaints').where('target', '==', me.sort.target).where('about', '==', me.sort.about).orderBy('created_at', 'desc'))
-						.then(() => me.$store.state.isLoading = 0).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = 0)
+						.then(() => me.$store.state.isLoading = false).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = false)
 						break
 					case '001':
 						me.$binding('complaints', db.collection('complaints').where('about', '==', me.sort.about).orderBy('created_at', 'desc'))
-						.then(() => me.$store.state.isLoading = 0).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = 0)
+						.then(() => me.$store.state.isLoading = false).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = false)
 						break
 					case '010':
 						me.$binding('complaints', db.collection('complaints').where('target', '==', me.sort.target).orderBy('created_at', 'desc'))
-						.then(() => me.$store.state.isLoading = 0).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = 0)
+						.then(() => me.$store.state.isLoading = false).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = false)
 						break
 					case '111':
 						me.$binding('complaints', db.collection('complaints').where('way', '==', me.sort.way).where('about', '==', me.sort.about).orderBy('created_at', 'desc'))
-						.then(() => me.$store.state.isLoading = 0).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = 0)
+						.then(() => me.$store.state.isLoading = false).catch(err => me.complaints = []).then(() => me.$store.state.isLoading = false)
 						break
 				}
 			}
@@ -111,10 +111,10 @@
 		mounted() {
 			let me = this
 			me.$parent.onAdminPanel = false
-			me.$store.state.isLoading = 1
+			me.$store.state.isLoading = true
 			me.$binding('complaints', db.collection('complaints').orderBy('created_at', 'desc'))
 			.then(() => {
-				me.$store.state.isLoading = 0
+				me.$store.state.isLoading = false
 			})
 		}
 	}

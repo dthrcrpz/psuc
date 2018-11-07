@@ -3,7 +3,7 @@
 		<table id="complaints-table">
 			<thead>
 				<tr>
-					<th>Approved</th>
+					<th>Enabled</th>
 					<th class="sortable" @click="sort(1)">ID Number / Username <i class="fa fa-sort" aria-hidden="true"></i></th>
 					<th class="sortable" @click="sort(2)">Fullname <i class="fa fa-sort" aria-hidden="true"></i></th>
 					<th class="sortable" @click="sort(3)">Email <i class="fa fa-sort" aria-hidden="true"></i></th>
@@ -49,7 +49,7 @@
 				let me = this
 				let el = e.target
 
-				me.$parent.$parent.isLoading = 1
+				me.$store.state.isLoading = true
 				// check if I am currently shown to public
 				db.collection('users').doc(id).update({
 					approved: !approved
@@ -58,7 +58,7 @@
 				}).catch(err => {
 					console.log('Error: '+err)
 				}).then(() => {
-					me.$parent.$parent.isLoading = 0
+					me.$store.state.isLoading = false
 				})
 			},
 			sort(target) {
@@ -68,23 +68,23 @@
 				let me = this
 				let deleteme = confirm('Are you sure you want to delete this post?')
 				if(deleteme) {
-					me.$parent.$parent.isLoading = 1
+					me.$store.state.isLoading = true
 					db.collection('users').doc(id).delete().then(() => {
 						console.log('Deleted successfully')
 					}).catch(err => {
 						console.log(err)
 					}).then(() => {
-						me.$parent.$parent.isLoading = 0
+						me.$store.state.isLoading = false
 					})
 				}
 			}
 		},
 		mounted() {
 			let me = this
-			me.$parent.$parent.isLoading = 1
+			me.$store.state.isLoading = true
 			me.$binding('users', db.collection('users').orderBy('created_at', 'desc'))
 			.then(() => {
-				me.$parent.$parent.isLoading = 0
+				me.$store.state.isLoading = false
 			})
 		}
 	}

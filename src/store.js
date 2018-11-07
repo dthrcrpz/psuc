@@ -9,7 +9,8 @@ export default new Vuex.Store({
 		isAdminLoggedIn: false,
 		decodedClientToken: '',
 		decodedAdminToken: '',
-		isLoading: 0,
+		isLoading: false,
+		onAdminPanel: false
 	},
 	mutations: {
 		login(state, payload) {

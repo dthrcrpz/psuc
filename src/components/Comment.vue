@@ -8,7 +8,7 @@
 				{{ data.created_at | fromNow }}
 			</p>
 
-			<button class="delete" v-if="data.user_id == $parent.$parent.$parent.decodedClientToken.user_id" @click="deleteComment(postid, data['.key'])">Delete</button>
+			<button class="delete" v-if="data.user_id == $store.state.decodedClientToken.user_id" @click="deleteComment(postid, data['.key'])">Delete</button>
 			
 			<p class="comment">
 				{{ data.comment }}
@@ -32,7 +32,7 @@
 			deleteComment(postid, commentid) {
 				let me = this
 				let deleteme = confirm('Are you sure you want to delete this comment?')
-				me.$parent.$parent.$parent.isLoading = 1
+				me.$store.state.isLoading = true
 				if(deleteme) {
 					db.collection('complaints').doc(postid).collection('comments').doc(commentid).delete()
 					.then(res => {
@@ -42,7 +42,7 @@
 						console.log(err)
 					})
 					.then(() => {
-						me.$parent.$parent.$parent.isLoading = 0
+						me.$store.state.isLoading = false
 					})
 				}
 			}

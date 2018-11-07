@@ -16,7 +16,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="complaints-item" v-for="c in complaints" v-if="c.target == $parent.$parent.decodedAdminToken.adminFor || $parent.$parent.decodedAdminToken.adminFor == 'All'">
+				<tr class="complaints-item" v-for="c in complaints" v-if="c.target == $store.state.decodedAdminToken.adminFor || $store.state.decodedAdminToken.adminFor == 'All'">
 					<td>
 						<label class="switch">
 							<input type="checkbox" :checked="c.showToPublic" @change.prevent="toggleShowToPublic($event,c['.key'], c.showToPublic)">
@@ -64,7 +64,7 @@
 				let me = this
 				let el = e.target
 
-				me.$parent.$parent.isLoading = 1
+				me.$store.state.isLoading = true
 				// check if I am currently shown to public
 				db.collection('complaints').doc(id).update({
 					showToPublic: !show
@@ -73,7 +73,7 @@
 				}).catch(err => {
 					console.log('Error: '+err)
 				}).then(() => {
-					me.$parent.$parent.isLoading = 0
+					me.$store.state.isLoading = false
 				})
 			},
 			viewMessage(message) {
@@ -88,23 +88,23 @@
 				let me = this
 				let deleteme = confirm('Are you sure you want to delete this post?')
 				if(deleteme) {
-					me.$parent.$parent.isLoading = 1
+					me.$store.state.isLoading = true
 					db.collection('complaints').doc(id).delete().then(() => {
 						console.log('Deleted successfully')
 					}).catch(err => {
 						console.log(err)
 					}).then(() => {
-						me.$parent.$parent.isLoading = 0
+						me.$store.state.isLoading = false
 					})
 				}
 			}
 		},
 		mounted() {
 			let me = this
-			me.$parent.$parent.isLoading = 1
+			me.$store.state.isLoading = true
 			me.$binding('complaints', db.collection('complaints').orderBy('created_at', 'desc'))
 			.then(() => {
-				me.$parent.$parent.isLoading = 0
+				me.$store.state.isLoading = false
 			})
 		}
 	}

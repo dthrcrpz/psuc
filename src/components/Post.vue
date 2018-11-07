@@ -28,7 +28,7 @@
 					<p class="value">{{ data.message }}</p>
 				</div>
 			</div>
-			<button class="delete" @click="confirmDelete(data['.key'])" v-if="data.user_id == $parent.$parent.decodedClientToken.user_id || $parent.$parent.isAdminLoggedIn"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+			<button class="delete" @click="confirmDelete(data['.key'])" v-if="data.user_id == $store.state.decodedClientToken.user_id || $parent.$parent.isAdminLoggedIn"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 		</div>
 		<div class="post-comments">
 			<button class="view" @click="showComments()"><b>Comments</b>
@@ -86,10 +86,10 @@
 
 				// fetch comments for this post
 				if(!me.hasShown) {
-					me.$parent.isLoading = 1
+					me.$parent.isLoading = true
 					me.$binding('comments', db.collection('complaints').doc(me.data['.key']).collection('comments').orderBy('created_at', 'desc'))
 					.then(() => {
-						me.$parent.isLoading = 0
+						me.$store.state.isLoading = false
 					})
 					me.hasShown = true
 				}
@@ -105,11 +105,11 @@
 					return false
 				}
 
-				me.$parent.$parent.isLoading = 1
+				me.$store.state.isLoading = true
 				db.collection('complaints').doc(me.data['.key']).collection('comments').doc().set({
 					alias: (me.alias == '') ? 'Anonymous' : me.alias,
 					comment: me.comment,
-					user_id: me.$parent.$parent.decodedClientToken.user_id,
+					user_id: me.$store.state.decodedClientToken.user_id,
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 
@@ -120,19 +120,19 @@
 				}).catch(err => {
 					alert('Sorry. Something went wrong')
 					console.log(err)
-				}).then(() => me.$parent.$parent.isLoading = 0)
+				}).then(() => me.$store.state.isLoading = false)
 			},
 			confirmDelete(id) {
 				let me = this
 				var deleteme = confirm('Are you sure you want to delete this post?')
 				if(deleteme) {
-					me.$parent.$parent.isLoading = 1
+					me.$store.state.isLoading = true
 					db.collection('complaints').doc(id).delete().then(() => {
 						console.log('Deleted successfully')
 					}).catch(err => {
 						console.log(err)
 					}).then(() => {
-						me.$parent.$parent.isLoading = 0
+						me.$store.state.isLoading = false
 					})
 				}
 			}

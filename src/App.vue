@@ -7,8 +7,8 @@
                     <h1>PSU</h1>
                 </router-link>
                 <div class="right-nav">
-                    <router-link to="/" class="normal home-link" v-if="onAdminPanel == false">Home </router-link>
-                    <router-link to="/admin-panel" class="normal home-link" v-if="onAdminPanel">Home </router-link>
+                    <router-link to="/" class="normal home-link" v-if="$store.state.onAdminPanel == false">Home </router-link>
+                    <router-link to="/admin-panel" class="normal home-link" v-if="$store.state.onAdminPanel">Home </router-link>
                     <router-link to="/complaints" class="normal" v-if="$store.state.isClientLoggedIn || $store.state.isAdminLoggedIn">View Complaints</router-link>
                     <button class="logout" @click="logout()" v-if="$store.state.isAdminLoggedIn"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
                     <button class="logout" @click="clientLogout()" v-if="$store.state.isClientLoggedIn"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
@@ -23,8 +23,8 @@
             <div class="loading-container" v-if="$store.state.isLoading"></div>
         </transition>
         <div :class="(showMobNav) ? 'mobile-overlay-nav active' : 'mobile-overlay-nav'">
-            <a @click="showMobNav = false" href="/" class="normal home-link" v-if="onAdminPanel == false">Home </a>
-            <a @click="showMobNav = false" href="/admin-panel" class="normal home-link" v-if="onAdminPanel">Home </a>
+            <a @click="showMobNav = false" href="/" class="normal home-link" v-if="$store.state.onAdminPanel == false">Home </a>
+            <a @click="showMobNav = false" href="/admin-panel" class="normal home-link" v-if="$store.state.onAdminPanel">Home </a>
             <a @click="showMobNav = false" href="/complaints" class="normal" v-if="$store.state.isClientLoggedIn || $store.state.isAdminLoggedIn">View Complaints</a>
             <div class="logout-container" v-if="$store.state.isAdminLoggedIn">
                 <a href="javascript:void(0)" @click="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
@@ -44,7 +44,6 @@
             return{
                 decodedClientToken: '',
                 decodedAdminToken: '',
-                onAdminPanel: true,
                 showMobNav: false
             }
         },

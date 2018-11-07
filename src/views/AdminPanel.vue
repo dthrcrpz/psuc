@@ -1,6 +1,6 @@
 <template>
 	<div class="admin-panel">
-		<div class="container login-container" v-if="$parent.isAdminLoggedIn == false">
+		<div class="container login-container" v-if="$store.state.isAdminLoggedIn == false">
 			<img src="/logo.png" class="logo">
 			<p class="h3">Admin Panel</p>
 			<form @submit.prevent="login()">
@@ -18,7 +18,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="container admin-container" v-if="$parent.isAdminLoggedIn">
+		<div class="container admin-container" v-if="$store.state.isAdminLoggedIn">
 			<div class="left-nav">
 				<ul>
 					<li><router-link to="/admin-panel/complaints"><i class="fa fa-hand-paper-o" aria-hidden="true"></i> Complaints</router-link></li>
@@ -72,7 +72,7 @@
 		methods: {
 			login() {
 				let me = this
-				me.$parent.isLoading = true
+				me.$store.state.isLoading = true
 				db.collection('users')
 				.where('idnumber', '==', me.username)
 				.where('password', '==', me.password)
@@ -80,7 +80,7 @@
 				.get().then(res => {
 					if(!res.empty) { // if matched
 
-						me.$parent.isClientLoggedIn = false
+						me.$store.state.isClientLoggedIn = false
 						Cookie.remove('client-token')
 
 						let encoded = jwt.sign({
@@ -92,10 +92,10 @@
 
 						jwt.verify(Cookie.get('admin-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
 		                    if(!err) {
-		                        me.$parent.isAdminLoggedIn = true
-		                        me.$parent.decodedAdminToken = decoded
+		                        me.$store.state.isAdminLoggedIn = true
+		                        me.$store.state.decodedAdminToken = decoded
 		                    }else{
-		                        me.$parent.isAdminLoggedIn = false
+		                        me.$store.state.isAdminLoggedIn = false
 		                    }
 		                })
 
@@ -103,27 +103,27 @@
 					}else{
 						alert('Invalid credentials. Please try again.')
 						Cookie.remove('admin-token')
-						me.$parent.isAdminLoggedIn = false
+						me.$store.state.isAdminLoggedIn = false
 					}
 				}).catch(err => {
 					console.log('Error: '+err)
 				}).then(() => {
-					me.$parent.isLoading = false
+					me.$store.state.isLoading = false
 				})
 			},
 			clientLogout() {
                 let me = this
                 me.isLoading = true
                 Cookie.remove('client-token')
-                me.$parent.isLoading = false
-                me.$parent.isClientLoggedIn = false
+                me.$store.state.isLoading = false
+                me.$store.state.isClientLoggedIn = false
             }
 		},
 		mounted() {
 			let me = this
-			me.$parent.onAdminPanel = true
+			me.$store.state.onAdminPanel = true
 			var x = me.$route.params.target
-			if(x == undefined && me.$parent.isAdminLoggedIn) {
+			if(x == undefined && me.$store.state.isAdminLoggedIn) {
 				me.$router.push('/admin-panel/complaints')
 			}
 			me.clientLogout()

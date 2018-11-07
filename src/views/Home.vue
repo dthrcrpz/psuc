@@ -308,7 +308,7 @@
 			},
 			adminLogout() {
                 let me = this
-                me.isLoading = true
+                me.$store.state.isLoading = true
                 Cookie.remove('admin-token')
                 me.$store.state.isLoading = false
                 me.$store.state.isAdminLoggedIn = false

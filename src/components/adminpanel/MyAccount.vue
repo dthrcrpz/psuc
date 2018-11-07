@@ -43,7 +43,7 @@
 					if(!res) { // do not proceed
 						die()
 					}else{
-						me.$parent.$parent.isLoading = 1
+						me.$store.state.isLoading = true
 						db.collection('users')
 						.where('idnumber', '==', 'superadmin')
 						.where('password', '==', me.old_password)
@@ -58,11 +58,11 @@
 								}).catch(err => {
 									console.log(err)
 								}).then(() => {
-									me.$parent.$parent.isLoading = 0
+									me.$store.state.isLoading = false
 								})
 							}else{
 								alert('The old password you entered is invalid')
-								me.$parent.$parent.isLoading = 0
+								me.$store.state.isLoading = false
 							}
 						})
 					}
