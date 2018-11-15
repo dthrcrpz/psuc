@@ -101,6 +101,7 @@
 
 				// check if alias contains the admin word
 				let aliasSTR = me.alias
+				aliasSTR = aliasSTR.toLowerCase()
 				let aliasCheck = aliasSTR.search('admin')
 				if(me.alias != '') {
 					if(aliasCheck >= 0) {
