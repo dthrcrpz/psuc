@@ -157,6 +157,7 @@
 				db.collection('users')
 				.where('idnumber', '==', me.login.username)
 				.where('password', '==', me.login.password)
+				.where('role', '==', 0)
 				.where('approved', '==', true)
 				.get().then(res => {
 					if(!res.empty) { // if matched

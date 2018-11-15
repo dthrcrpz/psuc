@@ -7,8 +7,8 @@
 			<p class="date">
 				{{ data.created_at | fromNow }}
 			</p>
-
-			<button class="delete" v-if="data.user_id == $store.state.decodedClientToken.user_id" @click="deleteComment(postid, data['.key'])">Delete</button>
+			{{ $store.state.isAdminLoggedIn }}
+			<button class="delete" v-if="data.user_id == $store.state.decodedClientToken.user_id || $store.state.isAdminLoggedIn == true" @click="deleteComment(postid, data['.key'])">Delete</button>
 			
 			<p class="comment">
 				{{ data.comment }}
