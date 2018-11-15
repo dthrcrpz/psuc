@@ -42,8 +42,6 @@
     export default{
         data() {
             return{
-                decodedClientToken: '',
-                decodedAdminToken: '',
                 showMobNav: false
             }
         },
@@ -101,7 +99,7 @@
                 jwt.verify(Cookie.get('client-token'), process.env.VUE_APP_JWT_SECRET, (err, decoded) => {
                     if(!err) {
                         me.$store.state.isClientLoggedIn = true
-                        me.decodedClientToken = decoded
+                        me.$store.state.decodedClientToken = decoded
                     }else{
                         me.$store.state.isClientLoggedIn = false
                     }
