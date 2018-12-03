@@ -1,5 +1,8 @@
 <template>
 	<div class="complaints-component">
+		<div class="form-group search-user">
+			<input type="text" name="search" id="search-query" placeholder="Search" @keyup="filter()">
+		</div>
 		<table id="complaints-table">
 			<thead>
 				<tr>
@@ -43,10 +46,35 @@
 	export default{
 		data() {
 			return{
-				users: []
+				users: [],
+				search_query: ''
+			}
+		},
+		watch: {
+			search_query: function(newsearch_query, oldsearch_query) {
+				let me = this
+				var input, filter, table, tr, td, i, txtValue
+				input = newsearch_query
+				filter = input.toUpperCase()
+				table = document.getElementById("complaints-table")
+				tr = table.getElementsByTagName("tr")
+				for (i = 0; i < tr.length; i++) {
+				    td = tr[i].getElementsByTagName("td")[0]
+				    if (td) {
+						txtValue = td.textContent || td.innerText
+						if (txtValue.toUpperCase().indexOf(filter) > -1) {
+				        	tr[i].style.display = ""
+				      	} else {
+				        	tr[i].style.display = "none"
+				    	}
+				    }       
+				}
 			}
 		},
 		methods: {
+			filter () {
+				filter()
+			},
 			toggleApproved(e, id, approved) {
 				let me = this
 				let el = e.target
@@ -91,6 +119,13 @@
 		}
 	}
 
+	function filter () {
+	    var value = $('#search-query').val().toLowerCase();
+	    $("#complaints-table tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	}
+
 	function sortHTML(id, sel, sortvalue) {
 	  var a, b, i, ii, y, bytt, v1, v2, cc, j;
 	  // var a = getElements(id);
@@ -130,5 +165,5 @@
 		  if (cc > 0) {break;}
 		}
 	  }
-	}	
+	}
 </script>
