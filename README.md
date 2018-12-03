@@ -11,12 +11,12 @@ TODO:
 3) Users should not be able to use admin names as their aliases. (Create an array of disabled aliases for this then verify on submit)
 4) Fix the admin comment section's error. Admin's alias when commenting must be set to their name automatically.  -->
 
-Add "solved" (dropdown) field to Complaints. Options are:
+<!-- Add "solved" (dropdown) field to Complaints. Options are:
 Pending
 In Action
-Solved
+Solved -->
 
-Add that status to View Complaints
+<!-- Add that status to View Complaints -->
 
 Add searching of users (fullname)
-Add viewing of primary key on users database
+<!-- Add viewing of primary key on users database -->

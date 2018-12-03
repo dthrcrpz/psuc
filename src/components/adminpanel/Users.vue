@@ -3,6 +3,7 @@
 		<table id="complaints-table">
 			<thead>
 				<tr>
+					<th>Database ID</th>
 					<th>Enabled</th>
 					<th class="sortable" @click="sort(1)">ID Number / Username <i class="fa fa-sort" aria-hidden="true"></i></th>
 					<th class="sortable" @click="sort(2)">Fullname <i class="fa fa-sort" aria-hidden="true"></i></th>
@@ -14,6 +15,7 @@
 			</thead>
 			<tbody>
 				<tr class="complaints-item" v-for="user in users" v-if="user.idnumber != 'superadmin'">
+					<td><a :href="'https://console.firebase.google.com/project/psuc-2d75e/database/firestore/data~2Fusers~2F' + user['.key']" target="_blank">{{ user['.key'] }}</a></td>
 					<td>
 						<label class="switch">
 							<input type="checkbox" :checked="user.approved" @change.prevent="toggleApproved($event, user['.key'], user.approved)">
