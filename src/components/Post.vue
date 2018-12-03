@@ -22,6 +22,10 @@
 					<p class="label">Date Submitted:</p>
 					<p class="value">{{ data.created_at | moment("MMM DD, YYYY | hh:mm a") }}</p>
 				</div>
+				<div class="info-group">
+					<p class="label">Status:</p>
+					<p :class="(data.status == 'Pending') ? 'value pending' : 'value solved' ">{{ data.status }}</p>
+				</div>
 			</div>
 			<div class="col right">
 				<div class="info-group">

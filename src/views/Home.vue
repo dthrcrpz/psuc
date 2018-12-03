@@ -284,6 +284,7 @@
 					real_name: realName,
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+					status: 'Pending',
 				}).then(() => {
 					console.log('Success')
 					alert('Thank you for submitting your concern.')

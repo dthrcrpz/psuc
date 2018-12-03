@@ -3,6 +3,7 @@
 		<table id="complaints-table">
 			<thead>
 				<tr>
+					<th>Status</th>
 					<th>Show on Public?</th>
 					<th class="sortable" @click="sort(1)">Submitted By <i class="fa fa-sort" aria-hidden="true"></i></th>
 					<th class="sortable" @click="sort(2)">Alias <i class="fa fa-sort" aria-hidden="true"></i></th>
@@ -17,6 +18,14 @@
 			</thead>
 			<tbody>
 				<tr class="complaints-item" v-for="c in complaints" v-if="c.target == $store.state.decodedAdminToken.adminFor || $store.state.decodedAdminToken.adminFor == 'All'">
+					<td>
+						<div class="form-group">
+							<select :value="c.status" @change="updateStatus($event, c['.key'])">
+								<option>Pending</option>
+								<option>Solved</option>
+							</select>
+						</div>
+					</td>
 					<td>
 						<label class="switch">
 							<input type="checkbox" :checked="c.showToPublic" @change.prevent="toggleShowToPublic($event,c['.key'], c.showToPublic)">
@@ -60,6 +69,23 @@
 			},
 		},
 		methods: {
+			updateStatus (e, id) {
+				let me = this
+				let el = e.target
+
+				let status = $(el).val()
+
+				me.$store.state.isLoading = true
+				db.collection('complaints').doc(id).update({
+					status: status
+				}).then(res => {
+					console.log(res)
+				}).catch(err => {
+					console.log('Error: '+err)
+				}).then(() => {
+					me.$store.state.isLoading = false
+				})
+			},
 			toggleShowToPublic(e, id, show) {
 				let me = this
 				let el = e.target
