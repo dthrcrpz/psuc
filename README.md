@@ -18,5 +18,5 @@ Solved -->
 
 <!-- Add that status to View Complaints -->
 
-Add searching of users (fullname)
+<!-- Add searching of users (fullname) -->
 <!-- Add viewing of primary key on users database -->
