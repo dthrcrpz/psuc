@@ -7,16 +7,6 @@
 					<input type="text" v-model="alias" name="alias" placeholder="anon623">
 				</div>
 				<div class="form-group">
-					<label>What are you? *</label>
-					<select v-model="way">
-						<option value="none" style="display: none">Please select</option>
-						<option>Student</option>
-						<option>Staff</option>
-						<option>Faculty</option>
-						<option>Graduate</option>
-					</select>
-				</div>
-				<div class="form-group">
 					<label>What is this all about? *</label>
 					<select v-model="about">
 						<option value="none" style="display: none">Please select</option>
@@ -86,6 +76,16 @@
 						<span class="validation-errors">{{ errors.first('reg_email') }}</span>
 					</div>
 					<div class="form-group">
+						<select name="way" v-validate="'excluded:0'" v-model="reg.way">
+							<option value="0" disabled>What are you?</option>
+							<option>Student</option>
+							<option>Staff</option>
+							<option>Faculty</option>
+							<option>Graduate</option>
+						</select>
+						<span class="validation-errors">{{ (errors.first('way')) ? 'This field is required' : '' }}</span>
+					</div>
+					<div class="form-group">
 						<input type="password" placeholder="Password" v-model="reg.password" name="reg_password" v-validate="'required|min:8'" ref="reg_password">
 						<span class="validation-errors">{{ errors.first('reg_password') }}</span>
 					</div>
@@ -122,7 +122,6 @@
 		data() {
 			return{
 				// data to submit
-				way: 'none',
 				about: 'none',
 				target: 'none',
 				message: '',
@@ -147,6 +146,7 @@
 					email: '',
 					password: '',
 					password2: '',
+					way: 0
 				}
 			}
 		},
@@ -167,7 +167,9 @@
 
 						let encoded = jwt.sign({
 							user_id: (me.$store.state.isAdminLoggedIn) ? 'superadmin' : res.docs[0].id,
-							real_name: (me.$store.state.isAdminLoggedIn) ? 'superadmin' : res.docs[0].data().fullname
+							idnumber: (me.$store.state.isAdminLoggedIn) ? 'superadmin' : res.docs[0].data().idnumber,
+							real_name: (me.$store.state.isAdminLoggedIn) ? 'superadmin' : res.docs[0].data().fullname,
+							way: (me.$store.state.isAdminLoggedIn) ? 'superadmin' : res.docs[0].data().way,
 						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
 						Cookie.set('client-token', encoded)
 						me.$store.state.isClientLoggedIn = true
@@ -210,6 +212,7 @@
 									approved: true,
 									created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 									updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+									way: me.reg.way
 								}).then(() => {
 									alert('Thank you for registering. The admin will approve your account within 24 hours.')
 									me.reg.idnumber = ''
@@ -272,10 +275,12 @@
 
 				// saving here
 				let userID = me.$store.state.decodedClientToken.user_id
+				let way = me.$store.state.decodedClientToken.way
 				let realName = me.$store.state.decodedClientToken.real_name
+				let idnumber = me.$store.state.decodedClientToken.idnumber
 				db.collection('complaints').doc().set({
 					alias: (me.alias == '') ? 'Anonymous' : me.alias,
-					way: me.way,
+					way: way,
 					about: me.about,
 					target: me.target,
 					message: me.message,
@@ -285,6 +290,7 @@
 					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
 					status: 'Pending',
+					idnumber: idnumber
 				}).then(() => {
 					console.log('Success')
 					alert('Thank you for submitting your concern.')
