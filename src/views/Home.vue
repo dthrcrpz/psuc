@@ -310,6 +310,8 @@
 						}).then(() => {
 							me.setLoading(false)
 							me.reset()
+							me.$validator.reset()
+							me.errors.clear()
 						})
 					}
 				}).catch(err => console.log(err))
