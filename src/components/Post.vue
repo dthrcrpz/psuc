@@ -18,6 +18,14 @@
 					<p class="label">About:</p>
 					<p class="value">{{ data.target }}</p>
 				</div>
+				<div class="info-group" v-if="data.department.length > 0 && data.department != 'none'">
+					<p class="label">Department:</p>
+					<p class="value">{{ data.department }}</p>
+				</div>
+				<div class="info-group" v-if="data.position.length > 0 && data.position != 'none'">
+					<p class="label">Position:</p>
+					<p class="value">{{ data.position }}</p>
+				</div>
 				<div class="info-group">
 					<p class="label">Date Submitted:</p>
 					<p class="value">{{ data.created_at | moment("MMM DD, YYYY | hh:mm a") }}</p>
