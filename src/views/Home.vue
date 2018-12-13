@@ -4,11 +4,11 @@
 			<form @submit.prevent="submitComplaint()">
 				<div class="form-group">
 					<label>Your Alias (to be shown on "<router-link to="/complaints">View Complaints</router-link>" section)</label>
-					<input type="text" v-model="alias" name="alias" placeholder="anon623">
+					<input type="text" v-model="alias" name="alias" placeholder="anon623" v-validate="'required'">
 				</div>
 				<div class="form-group">
 					<label>What is this all about? *</label>
-					<select v-model="about">
+					<select v-model="about" v-validate="'excluded:none'">
 						<option value="none" style="display: none">Please select</option>
 						<option>Complaint</option>
 						<option>Compliment</option>
@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<label>What/Who is the subject of your concern? *</label>
-					<select name="target" v-model="target">
+					<select name="target" v-model="target" v-validate="'excluded:none'">
 						<option value="none" style="display: none">Please select</option>
 						<option>Facilities</option>
 						<option>Instructor</option>
@@ -27,9 +27,29 @@
 						<option>Event</option>
 					</select>
 				</div>
+				<div class="form-group" v-if="target == 'Instructor'">
+					<label>Department *</label>
+					<select name="target" v-model="department" v-validate="'excluded:none'">
+						<option value="none" style="display: none">Please select</option>
+						<option>College of Computing Sciences (CCS)</option>
+						<option>College of Technology (CT)</option>
+						<option>College of Education (CE)</option>
+						<option>College of Hospitality Management (CHM)</option>
+						<option>College of Business and Public Administration (CBPA)</option>
+						<option>Collge of Art Sciences and Letters (CASL)</option>
+					</select>
+				</div>
+				<div class="form-group" v-if="target == 'Staff'">
+					<label>Position *</label>
+					<select name="target" v-model="position" v-validate="'excluded:none'">
+						<option value="none" style="display: none">Please select</option>
+						<option>Cashier</option>
+						<option>Administrator</option>
+					</select>
+				</div>
 				<div class="form-group">
 					<label>Your Complaint *</label>
-					<textarea rows="6" placeholder="Type your concern" v-model="message" name="message"></textarea>
+					<textarea rows="6" placeholder="Type your concern" v-model="message" name="message" v-validate="'required'"></textarea>
 				</div>
 				<div class="captcha-container">
                     <vue-recaptcha class="g-recaptcha" sitekey="6Lc2nnYUAAAAAHlEIu1w9cM0iNPbwv2cj0dQS8rm"></vue-recaptcha>
@@ -119,7 +139,7 @@
 		components: {
 			VueRecaptcha
 		},
-		data() {
+		data () {
 			return{
 				// data to submit
 				about: 'none',
@@ -128,6 +148,9 @@
 				ip: '',
 				name: '',
 				alias: '',
+
+				department: 'none',
+				position: 'none',
 
 				// others
 				authState: 1,
@@ -252,54 +275,44 @@
                     die()
                 }
 
-				var errors = []
 				// validate
-				$.each($('.home').find('select'), function() {
-					if($(this).find(':selected').val() == 'none') {
-						$(this).addClass('has-errors')
-						errors.push(1)
+				me.$validator.validate().then(res => {
+					if (res == false) { // if error
+						alert('Please fill up all required fields correctly')
+					} else {
+						me.setLoading(true)
+
+						// saving here
+						let userID = me.$store.state.decodedClientToken.user_id
+						let way = me.$store.state.decodedClientToken.way
+						let realName = me.$store.state.decodedClientToken.real_name
+						let idnumber = me.$store.state.decodedClientToken.idnumber
+						db.collection('complaints').doc().set({
+							alias: (me.alias == '') ? 'Anonymous' : me.alias,
+							way: way,
+							about: me.about,
+							target: me.target,
+							message: me.message,
+							user_id: userID,
+							showToPublic: true,
+							real_name: realName,
+							department: me.department,
+							position: me.position,
+							created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+							updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+							status: 'Pending',
+							idnumber: idnumber
+						}).then(() => {
+							console.log('Success')
+							alert('Thank you for submitting your concern.')
+						}).catch(err => {
+							console.log('Error: '+err)
+						}).then(() => {
+							me.setLoading(false)
+							me.reset()
+						})
 					}
-				})
-				if(me.message == '') {
-					$('textarea[name="message"').addClass('has-errors')
-					errors.push(1)
-				}
-
-				// do not proceed if has errors
-				if(errors.length > 0) {
-					alert('Please fill-out all required fields')
-					die()
-				}
-
-				me.setLoading(true)
-
-				// saving here
-				let userID = me.$store.state.decodedClientToken.user_id
-				let way = me.$store.state.decodedClientToken.way
-				let realName = me.$store.state.decodedClientToken.real_name
-				let idnumber = me.$store.state.decodedClientToken.idnumber
-				db.collection('complaints').doc().set({
-					alias: (me.alias == '') ? 'Anonymous' : me.alias,
-					way: way,
-					about: me.about,
-					target: me.target,
-					message: me.message,
-					user_id: userID,
-					showToPublic: true,
-					real_name: realName,
-					created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-					updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-					status: 'Pending',
-					idnumber: idnumber
-				}).then(() => {
-					console.log('Success')
-					alert('Thank you for submitting your concern.')
-				}).catch(err => {
-					console.log('Error: '+err)
-				}).then(() => {
-					me.setLoading(false)
-					me.reset()
-				})
+				}).catch(err => console.log(err))
 			},
 			reset() {
 				let me = this
