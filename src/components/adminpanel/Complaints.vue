@@ -19,7 +19,7 @@
 			<tbody>
 				<tr class="complaints-item" v-for="c in complaints" v-if="c.target == $store.state.decodedAdminToken.adminFor || $store.state.decodedAdminToken.adminFor == 'All'">
 					<td>
-						<div class="form-group">
+						<div class="form-group status">
 							<select :value="c.status" @change="updateStatus($event, c['.key'])">
 								<option>Pending</option>
 								<option>Solved</option>
@@ -36,7 +36,10 @@
 					<td>{{ c.alias }}</td>
 					<td>{{ c.way }}</td>
 					<td>{{ c.about }}</td>
-					<td>{{ c.target }}</td>
+					<td>{{ c.target }}
+						<span v-if="c.target == 'Instructor' && c.department && c.department != 'none'">({{ c.department }})</span>
+						<span v-if="c.target == 'Staff' && c.position && c.position != 'none'">({{ c.position }})</span>
+					</td>
 					<td>{{ c.created_at }}</td>
 					<td>{{ c.updated_at }}</td>
 					<td>{{ c.message | str_limit }} <button class="view-message" @click="viewMessage(c.message)"><i class="fa fa-eye" aria-hidden="true"></i> View</button></td>
@@ -174,5 +177,5 @@
 		  if (cc > 0) {break;}
 		}
 	  }
-	}	
+	}
 </script>
