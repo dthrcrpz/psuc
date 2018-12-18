@@ -86,7 +86,8 @@
 						let encoded = jwt.sign({
 							user_id: res.docs[0].id,
 							real_name: res.docs[0].data().fullname,
-							adminFor: res.docs[0].data().adminFor
+							adminFor: res.docs[0].data().adminFor,
+							dept: (res.docs[0].data().dept) ? res.docs[0].data().dept : ''
 						}, process.env.VUE_APP_JWT_SECRET, { expiresIn: '24h' })
 						Cookie.set('admin-token', encoded)
 

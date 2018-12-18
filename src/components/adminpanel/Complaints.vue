@@ -17,7 +17,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="complaints-item" v-for="c in complaints" v-if="c.target == $store.state.decodedAdminToken.adminFor || $store.state.decodedAdminToken.adminFor == 'All'">
+				<tr class="complaints-item" v-for="c in complaints" v-if="c.target == $store.state.decodedAdminToken.adminFor || $store.state.decodedAdminToken.adminFor == 'All' || c.department == $store.state.decodedAdminToken.dept || c.position == $store.state.decodedAdminToken.dept">
 					<td>
 						<div class="form-group status">
 							<select :value="c.status" @change="updateStatus($event, c['.key'])">

@@ -36,7 +36,7 @@
 						<option>College of Education (CE)</option>
 						<option>College of Hospitality Management (CHM)</option>
 						<option>College of Business and Public Administration (CBPA)</option>
-						<option>Collge of Art Sciences and Letters (CASL)</option>
+						<option>College of Art Sciences and Letters (CASL)</option>
 					</select>
 				</div>
 				<div class="form-group" v-if="target == 'Staff'">
